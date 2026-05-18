@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "sonaria_world"
+version = "${version}"
+displayName = "Sonaria World"
+authors = ""
+description = '''
+
+'''
+#logoFile = ""
+
+[[dependencies.sonaria_world]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sonaria_world]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.11,)"
+ordering = "NONE"
+side = "BOTH"
+
+
+[[mixins]]
+config = "sonaria_world.mixins.json"

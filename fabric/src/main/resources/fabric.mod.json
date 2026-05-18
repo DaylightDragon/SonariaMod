@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "sonaria_world",
+  "version": "${version}",
+  "name": "Sonaria World",
+  "description": "",
+  "authors": [
+    ""
+  ],
+  "contact": {
+    "homepage": ""
+  },
+  "license": "MIT",
+  "icon": "assets/sonaria_world/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.daylight.sonaria_world.fabric.SonariaWorldFabric"
+    ],
+    "client": [
+      "org.daylight.sonaria_world.fabric.client.SonariaWorldFabricClient"
+    ]
+  },
+  "mixins": [
+    "sonaria_world.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.2",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
