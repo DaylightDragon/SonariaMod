@@ -1,6 +1,6 @@
-package org.daylight.sonaria_world.fabric;
+package org.daylight.sonariaworld.fabric;
 
-import org.daylight.sonaria_world.SonariaWorld;
+import org.daylight.sonariaworld.SonariaWorld;
 import net.fabricmc.api.ModInitializer;
 
 public final class SonariaWorldFabric implements ModInitializer {

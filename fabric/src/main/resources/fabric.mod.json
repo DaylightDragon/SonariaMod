@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "sonaria_world",
+  "id": "sonariaworld",
   "version": "${version}",
   "name": "Sonaria World",
   "description": "",
@@ -11,18 +11,18 @@
     "homepage": ""
   },
   "license": "MIT",
-  "icon": "assets/sonaria_world/icon.png",
+  "icon": "assets/sonariaworld/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.daylight.sonaria_world.fabric.SonariaWorldFabric"
+      "org.daylight.sonariaworld.fabric.SonariaWorldFabric"
     ],
     "client": [
-      "org.daylight.sonaria_world.fabric.client.SonariaWorldFabricClient"
+      "org.daylight.sonariaworld.fabric.client.SonariaWorldFabricClient"
     ]
   },
   "mixins": [
-    "sonaria_world.mixins.json"
+    "sonariaworld.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.19.2",

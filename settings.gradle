@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'sonaria_world'
+rootProject.name = 'sonariaworld'
 
 include 'common'
 include 'fabric'

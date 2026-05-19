@@ -1,10 +1,10 @@
-package org.daylight.sonaria_world.neoforge;
+package org.daylight.sonariaworld.neoforge;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderPlayerEvent;
-import org.daylight.sonaria_world.SonariaWorld;
+import org.daylight.sonariaworld.SonariaWorld;
 
 @EventBusSubscriber(
         modid = SonariaWorld.MOD_ID,
@@ -13,6 +13,6 @@ import org.daylight.sonaria_world.SonariaWorld;
 public class ClientEvents {
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre<?> event) {
-        System.out.println("Render");
+//        System.out.println("Render");
     }
 }

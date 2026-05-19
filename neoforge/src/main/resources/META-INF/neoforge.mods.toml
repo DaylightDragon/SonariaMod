@@ -4,7 +4,7 @@ loaderVersion = "[2,)"
 license = "MIT"
 
 [[mods]]
-modId = "sonaria_world"
+modId = "sonariaworld"
 version = "${version}"
 displayName = "Sonaria World"
 authors = ""
@@ -13,14 +13,14 @@ description = '''
 '''
 #logoFile = ""
 
-[[dependencies.sonaria_world]]
+[[dependencies.sonariaworld]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.sonaria_world]]
+[[dependencies.sonariaworld]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.11,)"
@@ -29,4 +29,4 @@ side = "BOTH"
 
 
 [[mixins]]
-config = "sonaria_world.mixins.json"
+config = "sonariaworld.mixins.json"

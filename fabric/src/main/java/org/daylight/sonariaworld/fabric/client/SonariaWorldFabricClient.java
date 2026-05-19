@@ -1,4 +1,4 @@
-package org.daylight.sonaria_world.fabric.client;
+package org.daylight.sonariaworld.fabric.client;
 
 import net.fabricmc.api.ClientModInitializer;
 
