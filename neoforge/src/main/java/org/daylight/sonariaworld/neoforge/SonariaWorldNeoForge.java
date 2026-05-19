@@ -14,8 +14,12 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.SonariaWorld;
 import net.neoforged.fml.common.Mod;
+import org.daylight.sonariaworld.neoforge.network.NeoForgeClientNetworkBridge;
+import org.daylight.sonariaworld.neoforge.network.NeoForgeNetwork;
+import org.daylight.sonariaworld.neoforge.network.NeoForgeServerNetworkBridge;
 import org.daylight.sonariaworld.registry.EntityRegistry;
 import org.slf4j.Logger;
 
@@ -35,6 +39,7 @@ public final class SonariaWorldNeoForge {
 
         // lifecycle/mod events
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(NeoForgeNetwork::register);
         // gameplay events
         NeoForge.EVENT_BUS.register(GameEvents.class);
 
@@ -45,6 +50,9 @@ public final class SonariaWorldNeoForge {
         CREATIVE_TABS.register(modEventBus);
         ITEMS.register(modEventBus);
         modEventBus.<EntityAttributeCreationEvent>addListener(event -> EntityRegistry.registerEntityAttributes(event::put));
+
+        Services.CLIENT_NETWORK = new NeoForgeClientNetworkBridge();
+        Services.SERVER_NETWORK = new NeoForgeServerNetworkBridge();
 
         SonariaWorld.doRegistrations();
     }
