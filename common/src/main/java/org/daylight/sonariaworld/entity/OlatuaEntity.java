@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.daylight.sonariaworld.ModAnimations;
+import org.daylight.sonariaworld.entity.goal.IdlePauseGoal;
 import org.jspecify.annotations.NonNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -31,27 +32,27 @@ public class OlatuaEntity extends PathfinderMob implements GeoEntity, IControlla
     }
 
     @Override
-    public void registerControllers(AnimatableManager.@NonNull ControllerRegistrar controllers) {
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(
-                // Add our flying animation controller
-                new AnimationController<>("Main", 10, state -> state.setAndContinue(this.testWalkingActive ? ModAnimations.WALKING : ModAnimations.IDLE))
-                        // Handle the custom instruction keyframe that is part of our animation json
-                        .setCustomInstructionKeyframeHandler(animTest -> {
-                            Player player = ClientUtil.getClientPlayer();
-
-                            if (player != null)
-                                player.displayClientMessage(Component.literal("KeyFraming"), true);
-                        })
-                // Add our generic living animation controller
-//                DefaultAnimations.genericLivingController()
+                new AnimationController<>(
+                        "Main",
+                        5,
+                        state -> {
+                            if (state.isMoving()) {
+                                return state.setAndContinue(ModAnimations.WALKING);
+                            }
+                            return state.setAndContinue(ModAnimations.IDLE);
+                        }
+                )
         );
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12.0F));
-        this.goalSelector.addGoal(7, new RandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(5, new IdlePauseGoal(this));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 10.0F));
+        this.goalSelector.addGoal(7, new RandomStrollGoal(this, 0.5D, 80));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 //        super.registerGoals();
     }

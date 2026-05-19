@@ -35,7 +35,7 @@ public class EntityRegistry {
 
         registrar.accept(EntityRegistry.OLATUA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.FOLLOW_RANGE, 16)
-                .add(Attributes.MOVEMENT_SPEED, 0.15D)
+                .add(Attributes.MOVEMENT_SPEED, 0.12D)
                 .add(Attributes.MAX_HEALTH, 1)
                 .build());
     }
