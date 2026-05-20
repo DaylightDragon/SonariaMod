@@ -17,6 +17,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.SonariaWorld;
 import net.neoforged.fml.common.Mod;
+import org.daylight.sonariaworld.neoforge.keybinds.KeyHandler;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeClientNetworkBridge;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeNetwork;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeServerNetworkBridge;
@@ -40,8 +41,10 @@ public final class SonariaWorldNeoForge {
         // lifecycle/mod events
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(NeoForgeNetwork::register);
+        modEventBus.addListener(KeyHandler::registerKeyMappings);
         // gameplay events
         NeoForge.EVENT_BUS.register(GameEvents.class);
+        NeoForge.EVENT_BUS.register(KeyHandler.class);
 
         SOUND_EVENTS.register(modEventBus);
         BLOCKS.register(modEventBus);

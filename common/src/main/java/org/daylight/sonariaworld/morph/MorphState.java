@@ -7,6 +7,15 @@ public class MorphState {
     private boolean morphed;
     private Identifier entityId;
     private int variant;
+    private boolean dirty;
+
+    public MorphState() {}
+
+    public MorphState(boolean morphed, Identifier entityId, int variant) {
+        this.morphed = morphed;
+        this.entityId = entityId;
+        this.variant = variant;
+    }
 
     public boolean isMorphed() {
         return morphed;
@@ -31,4 +40,15 @@ public class MorphState {
     public void setVariant(int variant) {
         this.variant = variant;
     }
+
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    public void markDirty() {
+        dirty = true;
+    }
+
+    public static final MorphState EMPTY =
+            new MorphState(false, null, 0);
 }

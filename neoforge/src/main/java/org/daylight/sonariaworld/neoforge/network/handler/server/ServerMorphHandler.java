@@ -25,6 +25,8 @@ public final class ServerMorphHandler {
                 return;
             }
 
+            System.out.println("Making " + player.getName().getString() + " into " + entityId.toString());
+
             MorphService.setMorph(
                     player,
                     entityId,
