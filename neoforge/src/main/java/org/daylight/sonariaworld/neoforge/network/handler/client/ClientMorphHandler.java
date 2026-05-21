@@ -37,6 +37,9 @@ public final class ClientMorphHandler {
 
             state.markDirty();
 
+            player.refreshDimensions();
+            player.setBoundingBox(player.getBoundingBox());
+
             // Тут уже:
             // - обновление client cache
             // - refresh renderer

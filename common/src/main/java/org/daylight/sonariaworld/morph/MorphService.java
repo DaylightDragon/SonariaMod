@@ -2,6 +2,7 @@ package org.daylight.sonariaworld.morph;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
 
@@ -15,7 +16,7 @@ public final class MorphService {
     private MorphService() {
     }
 
-    public static MorphState get(ServerPlayer player) {
+    public static MorphState get(Player player) {
         return STATES.computeIfAbsent(player.getUUID(), uuid -> new MorphState());
     }
 

@@ -54,9 +54,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
         EntityRenderState morphActualRenderState = morphRenderState.sonaria$getOrCreateCachedState(morph);
 
-        sonaria$syncEntity(player, morph);
-
-        sonaria$syncRenderState(avatarRenderState, morphActualRenderState);
+//        sonaria$syncEntity(player, morph);
+//        sonaria$syncRenderState(avatarRenderState, morphActualRenderState);
 
         System.out.println("Rendering with state: " + morphActualRenderState);
 

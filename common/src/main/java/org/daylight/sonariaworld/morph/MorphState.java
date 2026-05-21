@@ -3,7 +3,6 @@ package org.daylight.sonariaworld.morph;
 import net.minecraft.resources.Identifier;
 
 public class MorphState {
-
     private boolean morphed;
     private Identifier entityId;
     private int variant;
