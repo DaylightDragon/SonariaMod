@@ -42,6 +42,7 @@ public final class SonariaWorldNeoForge {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(NeoForgeNetwork::register);
         modEventBus.addListener(KeyHandler::registerKeyMappings);
+        NeoForge.EVENT_BUS.register(ClientEvents.class);
         // gameplay events
         NeoForge.EVENT_BUS.register(GameEvents.class);
         NeoForge.EVENT_BUS.register(KeyHandler.class);

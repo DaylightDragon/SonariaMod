@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.LivingEntity;
+import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.mixinrelated.MorphRenderState;
 import org.daylight.sonariaworld.morph.ClientMorphManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,15 +31,17 @@ public class AvatarRendererMixin {
         }
 
         LivingEntity morph = ClientMorphManager.getRenderEntity(clientPlayer);
-        System.out.println("Morph in AvatarRendererMixin: " + morph);
+//        System.out.println("Morph in AvatarRendererMixin: " + morph); // c1
         if (morph == null) return;
 
-        sonaria$syncEntity(clientPlayer, morph);
+//        sonaria$syncEntity(clientPlayer, morph); // c2
 
         if(avatarRenderState instanceof MorphRenderState morphRenderState) {
             morphRenderState.sonaria$setRealPlayerEntity(clientPlayer);
             morphRenderState.sonaria$setMorphEntity(morph);
         }
+
+        ClientState.setPartialTick(f);
     }
 
     @Unique

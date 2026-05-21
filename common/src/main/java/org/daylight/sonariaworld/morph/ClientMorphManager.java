@@ -24,8 +24,8 @@ public final class ClientMorphManager {
     ) {
         MorphState state = MorphData.get(player);
 
-        System.out.println("Morph state: " + state);
-        System.out.println(state.isMorphed() + " " + state.getEntityId());
+//        System.out.println("Morph state: " + state); // c1
+//        System.out.println(state.isMorphed() + " " + state.getEntityId()); // c1
 
         if (!state.isMorphed() || state.getEntityId() == null) {
             CACHE.remove(player.getUUID());

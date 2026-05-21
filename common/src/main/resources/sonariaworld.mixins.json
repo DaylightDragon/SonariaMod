@@ -5,11 +5,15 @@
   "minVersion": "0.8",
   "client": [
     "client.AvatarRendererMixin",
-    "client.AvatarRenderStateMixin"
+    "client.AvatarRenderStateMixin",
+    "client.LocalPlayerMixin",
+    "client.PlayerMixin"
   ],
   "mixins": [
     "PlayerMixin",
-    "client.LivingEntityRendererMixin"
+    "client.EntityMixin",
+    "client.LivingEntityRendererMixin",
+    "client.WalkAnimationStateAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -7,6 +7,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.daylight.sonariaworld.SonariaWorld;
+import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.network.client.ClientMorphApi;
 import org.daylight.sonariaworld.registry.EntityRegistry;
 import org.lwjgl.glfw.GLFW;
@@ -20,11 +21,24 @@ public class KeyHandler {
                     KeyMapping.Category.GAMEPLAY
             );
 
+    public static final KeyMapping TOGGLE_MOVEMENT_MODE =
+            new KeyMapping(
+                    "key.sonariaworld.toggle_movement_mode",
+                    InputConstants.Type.KEYSYM,
+                    GLFW.GLFW_KEY_LEFT_ALT,
+                    KeyMapping.Category.GAMEPLAY
+            );
+
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         while (TOGGLE_MORPH.consumeClick()) {
             System.out.println("Sending toggle morph");
             ClientMorphApi.requestMorph(Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, "olatua"), 1);
+        }
+        while (TOGGLE_MOVEMENT_MODE.consumeClick()) {
+            ClientState.setMovementMode(ClientState.getMovementMode() == ClientState.MovementMode.VANILLA ?
+                    ClientState.MovementMode.PHYSICAL :
+                    ClientState.MovementMode.VANILLA);
         }
     }
 

@@ -1,0 +1,54 @@
+package org.daylight.sonariaworld.client.data;
+
+public class ClientState {
+    public enum MovementMode {
+        VANILLA,
+        PHYSICAL
+    }
+
+    private static float partialTick;
+    private static float clientSmoothAnimationCurrentYaw = 0;
+    private static float clientSmoothAnimationTargetYaw = 0;
+    private static boolean clientSmoothAnimationActive = false;
+    private static MovementMode movementMode = MovementMode.PHYSICAL;
+
+    public static MovementMode getMovementMode() {
+        return movementMode;
+    }
+
+    public static void setMovementMode(MovementMode movementMode) {
+        ClientState.movementMode = movementMode;
+    }
+
+    public static float getClientSmoothAnimationTargetYaw() {
+        return clientSmoothAnimationTargetYaw;
+    }
+
+    public static void setClientSmoothAnimationTargetYaw(float clientSmoothAnimationTargetYaw) {
+        ClientState.clientSmoothAnimationTargetYaw = clientSmoothAnimationTargetYaw;
+    }
+
+    public static boolean isClientSmoothAnimationActive() {
+        return clientSmoothAnimationActive;
+    }
+
+    public static void setClientSmoothAnimationActive(boolean clientSmoothAnimationActive) {
+        ClientState.clientSmoothAnimationActive = clientSmoothAnimationActive;
+    }
+
+    public static float getPartialTick() {
+        return partialTick;
+    }
+
+    public static void setPartialTick(float partialTick) {
+        ClientState.partialTick = partialTick;
+    }
+
+    public static float getClientSmoothAnimationCurrentYaw() {
+        return clientSmoothAnimationCurrentYaw;
+    }
+
+    public static void setClientSmoothAnimationCurrentYaw(float clientSmoothAnimationCurrentYaw) {
+        ClientState.clientSmoothAnimationCurrentYaw = clientSmoothAnimationCurrentYaw;
+    }
+}
