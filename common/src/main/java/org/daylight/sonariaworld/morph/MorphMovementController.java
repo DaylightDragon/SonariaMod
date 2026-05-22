@@ -85,6 +85,8 @@ public class MorphMovementController {
         // TARGET ROTATION
         // =========================================================
 
+        MorphState.MorphVisualsInfo morphVisualsInfo = MorphService.get(player).getMorphVisualsInfo();
+
         float targetYaw;
 
         if (hasInput) {
@@ -95,7 +97,7 @@ public class MorphMovementController {
             targetYaw = morph.getYRot();
         }
 
-        float currentYaw = ClientState.getClientVisualYaw();
+        float currentYaw = morphVisualsInfo.getMorphYaw(); // ClientState.getClientVisualYaw();
 
         float newYaw = Mth.rotLerp(
                 ROTATION_SPEED,
@@ -103,10 +105,16 @@ public class MorphMovementController {
                 targetYaw
         );
 
-        ClientState.setClientVisualPrevYaw(currentYaw);
-        ClientState.setClientVisualYaw(newYaw);
 
-        ClientState.setClientSmoothAnimationTargetYaw(newYaw);
+        morphVisualsInfo.setMorphYaw0(currentYaw);
+        morphVisualsInfo.setMorphYaw(newYaw);
+
+        // pitch in progress. later use that in rendering
+
+//        ClientState.setClientVisualPrevYaw(currentYaw);
+//        ClientState.setClientVisualYaw(newYaw);
+
+//        ClientState.setClientSmoothAnimationTargetYaw(newYaw);
         ClientState.setClientSmoothAnimationActive(true);
 
         // =========================================================

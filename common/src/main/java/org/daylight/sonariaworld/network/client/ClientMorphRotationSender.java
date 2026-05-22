@@ -1,6 +1,7 @@
 package org.daylight.sonariaworld.network.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.Services;
@@ -40,6 +41,10 @@ public class ClientMorphRotationSender {
         float yaw = normalize(morph.getYRot());
         float pitch = normalize(morph.getXRot());
         float headYaw = normalize(morph.getYHeadRot());
+
+        yaw = Mth.wrapDegrees(yaw);
+        pitch = Mth.wrapDegrees(pitch);
+        headYaw = Mth.wrapDegrees(headYaw);
 
         if (!initialized) {
             forceSend(yaw, pitch, headYaw);

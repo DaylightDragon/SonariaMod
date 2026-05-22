@@ -19,16 +19,19 @@ public class MorphState {
     private boolean dirty = false;
     private LivingEntity morphEntity;
 //    private Player realPlayerEntity;
-    private NonLocalPlayerMorphInfo nonLocalPlayerMorphInfo = new NonLocalPlayerMorphInfo(); // means that it shouldn't be used for local player
+    private MorphVisualsInfo morphVisualsInfo = new MorphVisualsInfo(); // means that it shouldn't be used for local player
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Accessors(chain = true)
     @ToString
-    public class NonLocalPlayerMorphInfo {
+    public class MorphVisualsInfo {
+        private float morphYaw0;
         private float morphYaw;
+        private float morphHeadYaw0;
         private float morphHeadYaw;
+        private float morphPitch0;
         private float morphPitch;
     }
 }

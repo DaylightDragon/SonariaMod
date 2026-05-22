@@ -3,7 +3,6 @@ package org.daylight.sonariaworld.mixin.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -16,7 +15,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.mixinrelated.MorphRenderState;
 import org.daylight.sonariaworld.morph.MorphService;
 import org.daylight.sonariaworld.morph.MorphState;
@@ -69,20 +67,16 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         float yaw;
         float headYaw;
 //        System.out.println(morphRenderState + " " + player);
-        if(player instanceof LocalPlayer) {
-            yaw = Mth.lerp(
-                    partialTick,
-                    ClientState.getClientSmoothAnimationCurrentYaw(),
-                    ClientState.getClientSmoothAnimationTargetYaw()
-            );
-            headYaw = yaw;
+        MorphState.MorphVisualsInfo morphVisualsInfo = state.getMorphVisualsInfo();
 
-            ClientState.setClientSmoothAnimationCurrentYaw(yaw);
-        } else {
-            MorphState.NonLocalPlayerMorphInfo nonLocalPlayerMorphInfo = state.getNonLocalPlayerMorphInfo();
-            yaw = nonLocalPlayerMorphInfo.getMorphYaw();
-            headYaw = nonLocalPlayerMorphInfo.getMorphHeadYaw();
-        }
+        yaw = Mth.rotLerp(
+                partialTick,
+                morphVisualsInfo.getMorphYaw0(),
+                morphVisualsInfo.getMorphYaw()
+        );
+        headYaw = yaw;
+
+        morphVisualsInfo.setMorphYaw0(yaw);
 
         morph.setYRot(yaw);
         morph.setYHeadRot(headYaw);
@@ -92,7 +86,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         morph.yHeadRotO = headYaw;
         morph.yBodyRotO = yaw;
 
-//        System.out.println("Entity: " + morph + ", yaw: " + yaw);
+//        System.out.println("player: " + player.getName() + ", yaw: " + yaw);
 
         morphActualRenderState.lightCoords = livingEntityRenderState.lightCoords;
 
