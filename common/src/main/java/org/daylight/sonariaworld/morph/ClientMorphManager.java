@@ -1,39 +1,36 @@
 package org.daylight.sonariaworld.morph;
 
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import org.daylight.sonariaworld.morph.MorphData;
-import org.daylight.sonariaworld.morph.MorphState;
+import org.daylight.sonariaworld.mixinrelated.IdHolder;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public final class ClientMorphManager {
-    private static final Map<UUID, LivingEntity> CACHE =
+    private static final Map<String, LivingEntity> CACHE =
             new HashMap<>();
 
     public static LivingEntity getRenderEntity(
             Player player
     ) {
-        MorphState state = MorphData.get(player);
+        MorphState state = MorphService.get(player); // MorphData.get(player);
 
 //        System.out.println("Morph state: " + state); // c1
 //        System.out.println(state.isMorphed() + " " + state.getEntityId()); // c1
 
-        if (!state.isMorphed() || state.getEntityId() == null) {
-            CACHE.remove(player.getUUID());
+        if (!state.isMorphed() || state.getEntityIdentifier() == null) {
+            CACHE.remove(((IdHolder)player).sonaria$getId());
             return null;
         }
 
         LivingEntity existing =
-                CACHE.get(player.getUUID());
+                CACHE.get(((IdHolder)player).sonaria$getId());
 
         if (existing != null) {
 
@@ -41,14 +38,14 @@ public final class ClientMorphManager {
                     BuiltInRegistries.ENTITY_TYPE
                             .getKey(existing.getType());
 
-            if (currentId.equals(state.getEntityId())) {
+            if (currentId.equals(state.getEntityIdentifier())) {
                 return existing;
             }
         }
 
         EntityType<?> type =
                 BuiltInRegistries.ENTITY_TYPE
-                        .getValue(state.getEntityId());
+                        .getValue(state.getEntityIdentifier());
 
         if (!(type.create(
                 player.level(),
@@ -57,8 +54,8 @@ public final class ClientMorphManager {
             return null;
         }
 
-        System.out.println("Put cache: " + player.getUUID() + " " + entity);
-        CACHE.put(player.getUUID(), entity);
+        System.out.println("Put cache: " + ((IdHolder)player).sonaria$getId() + " " + entity);
+        CACHE.put(((IdHolder)player).sonaria$getId(), entity);
 
         return entity;
     }

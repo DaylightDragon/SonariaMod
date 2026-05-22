@@ -4,8 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.daylight.sonariaworld.morph.MorphData;
+import org.daylight.sonariaworld.morph.MorphService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
+import org.daylight.sonariaworld.util.PlayerLookup;
 
 public final class ClientMorphHandler {
     private ClientMorphHandler() {
@@ -20,7 +22,7 @@ public final class ClientMorphHandler {
             Minecraft mc = Minecraft.getInstance();
             if (mc.level == null) return;
 
-            Player player = mc.level.getPlayerByUUID(payload.playerId());
+            Player player = PlayerLookup.client(payload.playerId());
             if (player == null) return;
 
             System.out.println("Received morph sync:");
@@ -29,10 +31,11 @@ public final class ClientMorphHandler {
             System.out.println("Variant: " + payload.variant());
             System.out.println("Morphed: " + payload.morphed());
 
-            MorphState state = MorphData.get(player);
+//            MorphState state = MorphData.get(player);
+            MorphState state = MorphService.get(player);
 
             state.setMorphed(payload.morphed());
-            state.setEntityId(payload.entityId());
+            state.setEntityIdentifier(payload.entityId());
             state.setVariant(payload.variant());
 
             state.markDirty();

@@ -61,7 +61,15 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
 //        System.out.println("Rendering with state: " + morphActualRenderState); // c1
 
-        float yaw = Mth.lerp(ClientState.getPartialTick(), ClientState.getClientSmoothAnimationCurrentYaw(), ClientState.getClientSmoothAnimationTargetYaw());
+        float partialTick = Minecraft.getInstance()
+                .getDeltaTracker()
+                .getGameTimeDeltaPartialTick(false);
+
+        float yaw = Mth.lerp(
+                partialTick,
+                ClientState.getClientSmoothAnimationCurrentYaw(),
+                ClientState.getClientSmoothAnimationTargetYaw()
+        );
         morph.setYRot(yaw);
         morph.setYBodyRot(yaw);
         morph.setYHeadRot(yaw);

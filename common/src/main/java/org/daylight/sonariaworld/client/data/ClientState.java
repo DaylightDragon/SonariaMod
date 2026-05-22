@@ -6,11 +6,28 @@ public class ClientState {
         PHYSICAL
     }
 
-    private static float partialTick;
     private static float clientSmoothAnimationCurrentYaw = 0;
     private static float clientSmoothAnimationTargetYaw = 0;
     private static boolean clientSmoothAnimationActive = false;
     private static MovementMode movementMode = MovementMode.PHYSICAL;
+    private static float clientVisualYaw = 0;
+    private static float clientVisualPrevYaw = 0;
+
+    public static float getClientVisualYaw() {
+        return clientVisualYaw;
+    }
+
+    public static void setClientVisualYaw(float clientVisualYaw) {
+        ClientState.clientVisualYaw = clientVisualYaw;
+    }
+
+    public static float getClientVisualPrevYaw() {
+        return clientVisualPrevYaw;
+    }
+
+    public static void setClientVisualPrevYaw(float clientVisualPrevYaw) {
+        ClientState.clientVisualPrevYaw = clientVisualPrevYaw;
+    }
 
     public static MovementMode getMovementMode() {
         return movementMode;
@@ -34,14 +51,6 @@ public class ClientState {
 
     public static void setClientSmoothAnimationActive(boolean clientSmoothAnimationActive) {
         ClientState.clientSmoothAnimationActive = clientSmoothAnimationActive;
-    }
-
-    public static float getPartialTick() {
-        return partialTick;
-    }
-
-    public static void setPartialTick(float partialTick) {
-        ClientState.partialTick = partialTick;
     }
 
     public static float getClientSmoothAnimationCurrentYaw() {

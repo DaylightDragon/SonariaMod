@@ -2,6 +2,8 @@ package org.daylight.sonariaworld.neoforge.keybinds;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -39,10 +41,13 @@ public class KeyHandler {
             ClientState.setMovementMode(ClientState.getMovementMode() == ClientState.MovementMode.VANILLA ?
                     ClientState.MovementMode.PHYSICAL :
                     ClientState.MovementMode.VANILLA);
+            if(Minecraft.getInstance().player != null) Minecraft.getInstance().player.displayClientMessage(
+                    Component.literal("Movement mode: " + ClientState.getMovementMode().name()), false);
         }
     }
 
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(TOGGLE_MORPH);
+        event.register(TOGGLE_MOVEMENT_MODE);
     }
 }

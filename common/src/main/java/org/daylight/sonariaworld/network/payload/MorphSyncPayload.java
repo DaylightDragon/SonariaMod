@@ -8,7 +8,7 @@ import net.minecraft.resources.Identifier;import org.daylight.sonariaworld.netwo
 import java.util.UUID;
 
 public record MorphSyncPayload(
-        UUID playerId,
+        String playerId,
         Identifier entityId,
         int variant,
         boolean morphed
@@ -25,7 +25,7 @@ public record MorphSyncPayload(
 
     private static MorphSyncPayload read(RegistryFriendlyByteBuf buf) {
         return new MorphSyncPayload(
-                buf.readUUID(),
+                buf.readUtf(),
                 buf.readIdentifier(),
                 buf.readInt(),
                 buf.readBoolean()
@@ -36,7 +36,7 @@ public record MorphSyncPayload(
             FriendlyByteBuf buf,
             MorphSyncPayload payload
     ) {
-        buf.writeUUID(payload.playerId);
+        buf.writeUtf(payload.playerId);
         buf.writeIdentifier(payload.entityId);
         buf.writeInt(payload.variant);
         buf.writeBoolean(payload.morphed);

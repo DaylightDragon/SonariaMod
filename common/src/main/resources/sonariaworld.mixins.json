@@ -10,10 +10,13 @@
     "client.PlayerMixin"
   ],
   "mixins": [
+    "EntityMixin",
+    "LivingEntityMixin",
+    "PlayerIdHolderMixin",
     "PlayerMixin",
+    "ServerPlayerAccessor",
     "client.EntityMixin",
-    "client.LivingEntityRendererMixin",
-    "client.WalkAnimationStateAccessor"
+    "client.LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

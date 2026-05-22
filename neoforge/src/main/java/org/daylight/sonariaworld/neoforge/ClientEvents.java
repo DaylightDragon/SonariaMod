@@ -2,8 +2,8 @@ package org.daylight.sonariaworld.neoforge;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -14,11 +14,7 @@ import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import org.daylight.sonariaworld.SonariaWorld;
 import org.daylight.sonariaworld.client.data.ClientState;
-import org.daylight.sonariaworld.mixin.client.WalkAnimationStateAccessor;
-import org.daylight.sonariaworld.morph.ClientMorphManager;
-import org.daylight.sonariaworld.morph.MorphMovementController;
-import org.daylight.sonariaworld.morph.MorphService;
-import org.daylight.sonariaworld.morph.MorphState;
+import org.daylight.sonariaworld.morph.*;
 
 //@EventBusSubscriber(
 //        modid = SonariaWorld.MOD_ID,
@@ -34,14 +30,17 @@ public class ClientEvents {
     public static void onSize(EntityEvent.Size event) {
         if (event.getEntity() instanceof Player player) {
             MorphState state = MorphService.get(player);
-            System.out.println("onSize called - Morphed: " + state.isMorphed() +
+            if(player.level() != null) System.out.println("onSize called - Morphed: " + state.isMorphed() +
 //                    " Entity: " + player.getLivingEntity().getDisplayName() +
                     " Side: " + (player.level().isClientSide() ? "CLIENT" : "SERVER"));
 
             if (state.isMorphed()) {
-                event.setNewSize(EntityDimensions.scalable(0.9F, 0.8F));
+                event.setNewSize(MorphDimensions.get(
+                        BuiltInRegistries.ENTITY_TYPE.getValue(state.getEntityIdentifier()),
+                        player.getPose()
+                ));
             } else {
-                event.setNewSize(EntityDimensions.scalable(0.6F, 1.8F));
+                event.setNewSize(MorphDimensions.getNormalPlayerDimensions());
             }
         }
     }
@@ -70,9 +69,11 @@ public class ClientEvents {
             morph.aiStep();
 
             if (morph instanceof LivingEntity living) {
+                float partialTick = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
+
                 Vec3 vel = player.getDeltaMovement();
                 float speed = (float)Math.sqrt(vel.x * vel.x + vel.z * vel.z);
-                living.walkAnimation.update(speed, speed, ClientState.getPartialTick());
+                living.walkAnimation.update(speed, speed, partialTick);
             }
         }
 

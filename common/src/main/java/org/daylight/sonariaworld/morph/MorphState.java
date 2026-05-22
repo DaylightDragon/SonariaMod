@@ -1,18 +1,19 @@
 package org.daylight.sonariaworld.morph;
 
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntityType;
 
 public class MorphState {
-    private boolean morphed;
-    private Identifier entityId;
-    private int variant;
-    private boolean dirty;
+    private boolean morphed = false;
+    private Identifier entityIdentifier = null;
+    private int variant = 0;
+    private boolean dirty = false;
 
     public MorphState() {}
 
-    public MorphState(boolean morphed, Identifier entityId, int variant) {
+    public MorphState(boolean morphed, Identifier entityIdentifier, int variant) {
         this.morphed = morphed;
-        this.entityId = entityId;
+        this.entityIdentifier = entityIdentifier;
         this.variant = variant;
     }
 
@@ -24,12 +25,12 @@ public class MorphState {
         this.morphed = morphed;
     }
 
-    public Identifier getEntityId() {
-        return entityId;
+    public Identifier getEntityIdentifier() {
+        return entityIdentifier;
     }
 
-    public void setEntityId(Identifier entityId) {
-        this.entityId = entityId;
+    public void setEntityIdentifier(Identifier entityIdentifier) {
+        this.entityIdentifier = entityIdentifier;
     }
 
     public int getVariant() {
@@ -47,7 +48,4 @@ public class MorphState {
     public void markDirty() {
         dirty = true;
     }
-
-    public static final MorphState EMPTY =
-            new MorphState(false, null, 0);
 }

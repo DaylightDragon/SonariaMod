@@ -41,7 +41,7 @@ public class AvatarRendererMixin {
             morphRenderState.sonaria$setMorphEntity(morph);
         }
 
-        ClientState.setPartialTick(f);
+//        ClientState.setPartialTick(f);
     }
 
     @Unique

@@ -54,3 +54,27 @@ shadowJar {
 remapJar {
     input.set shadowJar.archiveFile
 }
+
+loom {
+    runs {
+        client {
+            client()
+            name = "Client 1"
+            runDir = "run/client1"
+            programArg("--username")
+            programArg("Player1")
+            programArg("--uuid")
+            programArg("uuid1")
+        }
+
+        client2 {
+            client()
+            name = "Client 2"
+            runDir = "run/client2"
+            programArg("--username")
+            programArg("Player2")
+            programArg("--uuid")
+            programArg("uuid2")
+        }
+    }
+}
