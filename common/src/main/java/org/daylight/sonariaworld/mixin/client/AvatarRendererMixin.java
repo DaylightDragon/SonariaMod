@@ -9,6 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.mixinrelated.MorphRenderState;
 import org.daylight.sonariaworld.morph.ClientMorphManager;
+import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,6 +33,9 @@ public class AvatarRendererMixin {
             return;
         }
 
+        MorphState state = MorphService.get(player);
+        if(!state.isMorphed()) return;
+
         LivingEntity morph = ClientMorphManager.getRenderEntity(player);
 //        System.out.println("Morph in AvatarRendererMixin: " + morph); // c1
         if (morph == null) return;
@@ -39,8 +44,8 @@ public class AvatarRendererMixin {
 
         if(avatarRenderState instanceof MorphRenderState morphRenderState) {
             morphRenderState.sonaria$setRealPlayerEntity(player);
-            morphRenderState.sonaria$setMorphEntity(morph);
         }
+        state.setMorphEntity(morph);
 
 //        ClientState.setPartialTick(f);
     }

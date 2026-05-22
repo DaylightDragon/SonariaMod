@@ -4,9 +4,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.daylight.sonariaworld.neoforge.network.handler.client.ClientMorphHandler;
+import org.daylight.sonariaworld.neoforge.network.handler.client.ClientMorphRotationHandler;
 import org.daylight.sonariaworld.neoforge.network.handler.server.ServerMorphHandler;
-import org.daylight.sonariaworld.network.payload.MorphRequestPayload;
-import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
+import org.daylight.sonariaworld.neoforge.network.handler.server.ServerMorphRotationHandler;
+import org.daylight.sonariaworld.network.payload.*;
 
 public final class NeoForgeNetwork {
     private NeoForgeNetwork() {
@@ -27,6 +28,18 @@ public final class NeoForgeNetwork {
                 MorphSyncPayload.TYPE,
                 MorphSyncPayload.STREAM_CODEC,
                 ClientMorphHandler::handle
+        );
+
+        registrar.playToServer(
+                MorphRotationRequestPayload.TYPE,
+                MorphRotationRequestPayload.STREAM_CODEC,
+                ServerMorphRotationHandler::handle
+        );
+
+        registrar.playToClient(
+                MorphRotationDistributionPayload.TYPE,
+                MorphRotationDistributionPayload.STREAM_CODEC,
+                ClientMorphRotationHandler::handle
         );
     }
 }

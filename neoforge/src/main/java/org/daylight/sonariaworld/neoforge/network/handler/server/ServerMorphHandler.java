@@ -12,9 +12,7 @@ import org.daylight.sonariaworld.network.payload.MorphRequestPayload;
 import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
 
 public final class ServerMorphHandler {
-    private ServerMorphHandler() {
-
-    }
+    private ServerMorphHandler() {}
 
     public static void handle(
             MorphRequestPayload payload,

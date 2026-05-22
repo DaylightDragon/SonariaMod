@@ -18,6 +18,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.mixinrelated.MorphRenderState;
+import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,18 +42,16 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
             S livingEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci
     ) {
         Minecraft minecraft = Minecraft.getInstance();
-//        System.out.println((livingEntityRenderState instanceof AvatarRenderState) + " " + (livingEntityRenderState instanceof MorphRenderState));
         if (!(livingEntityRenderState instanceof AvatarRenderState avatarRenderState && livingEntityRenderState instanceof MorphRenderState morphRenderState)) return;
+
         Player player = (Player) morphRenderState.sonaria$getRealPlayerEntity();
-//        System.out.println("Player: " + player); // c1
         if(player == null) return;
 
-        LivingEntity morph = morphRenderState.sonaria$getMorphEntity(); // ClientMorphManager.getRenderEntity(player);
-//        System.out.println("Morph: " + morph); // c1
+        MorphState state = MorphService.get(player);
+        if(!state.isMorphed()) return;
 
-        if (morph == null) {
-            return;
-        }
+        LivingEntity morph = state.getMorphEntity(); // ClientMorphManager.getRenderEntity(player);
+        if (morph == null) return;
 
         EntityRenderer<Entity, EntityRenderState> morphRenderer = (EntityRenderer<Entity, EntityRenderState>) entityRenderDispatcher.getRenderer(morph);
 
@@ -78,9 +78,10 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
             headYaw = yaw;
 
             ClientState.setClientSmoothAnimationCurrentYaw(yaw);
-        } else { // TODO temporary implementation! Should come from player's sending data to server
-            yaw = player.yBodyRot;
-            headYaw = player.yHeadRot;
+        } else {
+            MorphState.NonLocalPlayerMorphInfo nonLocalPlayerMorphInfo = state.getNonLocalPlayerMorphInfo();
+            yaw = nonLocalPlayerMorphInfo.getMorphYaw();
+            headYaw = nonLocalPlayerMorphInfo.getMorphHeadYaw();
         }
 
         morph.setYRot(yaw);

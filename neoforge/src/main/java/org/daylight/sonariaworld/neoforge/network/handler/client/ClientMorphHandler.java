@@ -9,9 +9,7 @@ import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
 import org.daylight.sonariaworld.util.PlayerLookup;
 
 public final class ClientMorphHandler {
-    private ClientMorphHandler() {
-
-    }
+    private ClientMorphHandler() {}
 
     public static void handle(
             MorphSyncPayload payload,
@@ -37,7 +35,7 @@ public final class ClientMorphHandler {
             state.setEntityIdentifier(payload.entityId());
             state.setVariant(payload.variant());
 
-            state.markDirty();
+            state.setDirty(true);
 
             player.refreshDimensions();
             player.setBoundingBox(player.getBoundingBox());

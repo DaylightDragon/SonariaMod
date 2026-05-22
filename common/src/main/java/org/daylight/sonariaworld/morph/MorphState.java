@@ -1,51 +1,34 @@
 package org.daylight.sonariaworld.morph;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 public class MorphState {
     private boolean morphed = false;
     private Identifier entityIdentifier = null;
     private int variant = 0;
     private boolean dirty = false;
+    private LivingEntity morphEntity;
+//    private Player realPlayerEntity;
+    private NonLocalPlayerMorphInfo nonLocalPlayerMorphInfo = new NonLocalPlayerMorphInfo(); // means that it shouldn't be used for local player
 
-    public MorphState() {}
-
-    public MorphState(boolean morphed, Identifier entityIdentifier, int variant) {
-        this.morphed = morphed;
-        this.entityIdentifier = entityIdentifier;
-        this.variant = variant;
-    }
-
-    public boolean isMorphed() {
-        return morphed;
-    }
-
-    public void setMorphed(boolean morphed) {
-        this.morphed = morphed;
-    }
-
-    public Identifier getEntityIdentifier() {
-        return entityIdentifier;
-    }
-
-    public void setEntityIdentifier(Identifier entityIdentifier) {
-        this.entityIdentifier = entityIdentifier;
-    }
-
-    public int getVariant() {
-        return variant;
-    }
-
-    public void setVariant(int variant) {
-        this.variant = variant;
-    }
-
-    public boolean isDirty() {
-        return dirty;
-    }
-
-    public void markDirty() {
-        dirty = true;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Accessors(chain = true)
+    @ToString
+    public class NonLocalPlayerMorphInfo {
+        private float morphYaw;
+        private float morphHeadYaw;
+        private float morphPitch;
     }
 }

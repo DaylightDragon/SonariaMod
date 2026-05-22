@@ -4,6 +4,7 @@ import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.morph.*;
+import org.daylight.sonariaworld.network.client.ClientMorphRotationSender;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,6 +17,7 @@ public class LocalPlayerMixin {
     private void morph$movementTick(CallbackInfo ci) {
         if((Object) this instanceof LocalPlayer) {
             MorphMovementController.tick((Player) (Object)this);
+            ClientMorphRotationSender.tick();
         }
     }
 }

@@ -13,7 +13,6 @@ public record MorphSyncPayload(
         int variant,
         boolean morphed
 ) implements CustomPacketPayload {
-
     public static final Type<MorphSyncPayload> TYPE =
             new Type<>(NetworkIds.MORPH_SYNC);
 

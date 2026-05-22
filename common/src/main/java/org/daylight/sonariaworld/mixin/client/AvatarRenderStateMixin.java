@@ -21,18 +21,6 @@ public class AvatarRenderStateMixin implements MorphRenderState {
     private EntityRenderer sonaria$renderer = null;
 
     @Override
-    public void sonaria$setMorphEntity(
-            LivingEntity entity
-    ) {
-        this.sonaria$morphEntity = entity;
-    }
-
-    @Override
-    public LivingEntity sonaria$getMorphEntity() {
-        return sonaria$morphEntity;
-    }
-
-    @Override
     public void sonaria$setRealPlayerEntity(LivingEntity entity) {
         this.sonaria$realPlayerEntity = entity;
     }

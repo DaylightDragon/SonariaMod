@@ -1,9 +1,9 @@
 package org.daylight.sonariaworld.network;
 
-import net.minecraft.server.level.ServerPlayer;
 import org.daylight.sonariaworld.network.payload.MorphRequestPayload;
-import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
+import org.daylight.sonariaworld.network.payload.MorphRotationRequestPayload;
 
 public interface ClientNetworkBridge {
     void sendMorphRequest(MorphRequestPayload payload);
+    void sendMorphRotation(MorphRotationRequestPayload morphRotationRequestPayload);
 }
