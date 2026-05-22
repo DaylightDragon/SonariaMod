@@ -53,7 +53,7 @@ public class ClientEvents {
         for (Player player : mc.level.players()) {
             LivingEntity morph = ClientMorphManager.getRenderEntity(player);
             if (morph == null) continue;
-            if(!(player instanceof LocalPlayer)) sync(player, morph);
+//            if(!(player instanceof LocalPlayer)) sync(player, morph);
 //            System.out.println("tick");
 //            morph.tick();
 
@@ -63,8 +63,8 @@ public class ClientEvents {
             morph.yOld = morph.getY();
             morph.zOld = morph.getZ();
 
-            morph.xRotO = morph.getXRot();
-            morph.yRotO = morph.getYRot();
+//            morph.xRotO = morph.getXRot();
+//            morph.yRotO = morph.getYRot();
 
             morph.aiStep();
 

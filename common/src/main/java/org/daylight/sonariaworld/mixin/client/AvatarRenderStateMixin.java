@@ -45,10 +45,8 @@ public class AvatarRenderStateMixin implements MorphRenderState {
     @Override
     public EntityRenderState sonaria$getOrCreateCachedState(LivingEntity entity) {
         if(this.sonaria$cachedState == null) {
-            this.sonaria$renderer =
-                    Minecraft.getInstance().getEntityRenderDispatcher()
-                            .getRenderer(entity);
-            this.sonaria$cachedState = this.sonaria$renderer.createRenderState(entity, 1.0F);
+            this.sonaria$renderer = sonaria$getRenderer(entity);
+            this.sonaria$cachedState = this.sonaria$renderer.createRenderState(entity, Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false)); // TODO maybe cache
         }
 
         return this.sonaria$cachedState;

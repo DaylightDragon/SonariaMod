@@ -6,8 +6,7 @@
   "client": [
     "client.AvatarRendererMixin",
     "client.AvatarRenderStateMixin",
-    "client.LocalPlayerMixin",
-    "client.PlayerMixin"
+    "client.LocalPlayerMixin"
   ],
   "mixins": [
     "EntityMixin",
@@ -15,7 +14,6 @@
     "PlayerIdHolderMixin",
     "PlayerMixin",
     "ServerPlayerAccessor",
-    "client.EntityMixin",
     "client.LivingEntityRendererMixin"
   ],
   "injectors": {

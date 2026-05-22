@@ -3,6 +3,7 @@ package org.daylight.sonariaworld.mixin.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -61,20 +62,38 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
 //        System.out.println("Rendering with state: " + morphActualRenderState); // c1
 
-        float partialTick = Minecraft.getInstance()
+        float partialTick = minecraft
                 .getDeltaTracker()
                 .getGameTimeDeltaPartialTick(false);
 
-        float yaw = Mth.lerp(
-                partialTick,
-                ClientState.getClientSmoothAnimationCurrentYaw(),
-                ClientState.getClientSmoothAnimationTargetYaw()
-        );
-        morph.setYRot(yaw);
-        morph.setYBodyRot(yaw);
-        morph.setYHeadRot(yaw);
+        float yaw;
+        float headYaw;
+//        System.out.println(morphRenderState + " " + player);
+        if(player instanceof LocalPlayer) {
+            yaw = Mth.lerp(
+                    partialTick,
+                    ClientState.getClientSmoothAnimationCurrentYaw(),
+                    ClientState.getClientSmoothAnimationTargetYaw()
+            );
+            headYaw = yaw;
 
-        ClientState.setClientSmoothAnimationCurrentYaw(yaw);
+            ClientState.setClientSmoothAnimationCurrentYaw(yaw);
+        } else { // TODO temporary implementation! Should come from player's sending data to server
+            yaw = player.yBodyRot;
+            headYaw = player.yHeadRot;
+        }
+
+        morph.setYRot(yaw);
+        morph.setYHeadRot(headYaw);
+        morph.setYBodyRot(yaw);
+
+        morph.yRotO = yaw;
+        morph.yHeadRotO = headYaw;
+        morph.yBodyRotO = yaw;
+
+//        System.out.println("Entity: " + morph + ", yaw: " + yaw);
+
+        morphActualRenderState.lightCoords = livingEntityRenderState.lightCoords;
 
         morphRenderer.submit(
                 morphActualRenderState,
@@ -87,91 +106,25 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     }
 
     @Unique
-    private void sonaria$syncEntity(
-            Player player,
-            LivingEntity morph
-    ) {
-
-        morph.setPos(
-                player.getX(),
-                player.getY(),
-                player.getZ()
-        );
-
-        morph.xo = player.xo;
-        morph.yo = player.yo;
-        morph.zo = player.zo;
-
-        morph.setYRot(player.getYRot());
-        morph.setXRot(player.getXRot());
-
-        morph.yRotO = player.yRotO;
-        morph.xRotO = player.xRotO;
-
-        morph.setYBodyRot(player.yBodyRot);
-        morph.yBodyRotO = player.yBodyRotO;
-
-        morph.setYHeadRot(player.getYHeadRot());
-        morph.yHeadRotO = player.yHeadRotO;
-
+    private void sonaria$syncEntity(Player player, LivingEntity morph) {
         morph.tickCount = player.tickCount;
-
         morph.setPose(player.getPose());
-
         morph.setSprinting(player.isSprinting());
-
         morph.setShiftKeyDown(player.isShiftKeyDown());
-
         morph.setSwimming(player.isSwimming());
-
         morph.setOnGround(player.onGround());
-
-        morph.walkAnimation.setSpeed(player.walkAnimation.speed());
-        morph.walkAnimation.position(player.walkAnimation.position());
-
-        morph.setDeltaMovement(player.getDeltaMovement());
     }
 
     @Unique
-    private void sonaria$syncRenderState(
-            AvatarRenderState playerState,
-            EntityRenderState morphState
-    ) {
-
-        morphState.x = playerState.x;
-        morphState.y = playerState.y;
-        morphState.z = playerState.z;
-
+    private void sonaria$syncRenderState(AvatarRenderState playerState, EntityRenderState morphState) {
         morphState.ageInTicks = playerState.ageInTicks;
-
         morphState.shadowRadius = playerState.shadowRadius;
-
         morphState.lightCoords = playerState.lightCoords;
-
         if (morphState instanceof LivingEntityRenderState livingState) {
-
-            livingState.bodyRot = playerState.bodyRot;
-
-            livingState.yRot = playerState.yRot;
-
-            livingState.xRot = playerState.xRot;
-
-            livingState.walkAnimationPos =
-                    playerState.walkAnimationPos;
-
-            livingState.walkAnimationSpeed =
-                    playerState.walkAnimationSpeed;
-
             livingState.pose = playerState.pose;
-
-            livingState.isInWater =
-                    playerState.isInWater;
-
-            livingState.deathTime =
-                    playerState.deathTime;
-
-            livingState.scale =
-                    playerState.scale;
+            livingState.isInWater = playerState.isInWater;
+            livingState.deathTime = playerState.deathTime;
+            livingState.scale = playerState.scale;
         }
     }
 }

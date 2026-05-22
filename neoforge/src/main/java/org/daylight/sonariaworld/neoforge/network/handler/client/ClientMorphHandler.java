@@ -3,7 +3,6 @@ package org.daylight.sonariaworld.neoforge.network.handler.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.daylight.sonariaworld.morph.MorphData;
 import org.daylight.sonariaworld.morph.MorphService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.daylight.sonariaworld.network.payload.MorphSyncPayload;

@@ -35,7 +35,7 @@ public class LivingEntityMixin {
                     pose
             );
 
-            System.out.println("Returning dimensions " + dimensions);
+//            System.out.println("Returning dimensions " + dimensions);
 
             cir.setReturnValue(dimensions);
         } else {
