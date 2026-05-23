@@ -1,19 +1,27 @@
 package org.daylight.sonariaworld.mixin;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.client.data.LateInitializations;
+import org.daylight.sonariaworld.mixinrelated.PossibleGhostEntity;
 import org.daylight.sonariaworld.morph.MorphDimensions;
 import org.daylight.sonariaworld.morph.MorphService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public class LivingEntityMixin implements PossibleGhostEntity {
+    @Unique
+    private boolean sonaria$ghostEntity = false;
+
     @Inject(
             method = "getDimensions",
             at = @At("TAIL"),
@@ -40,6 +48,82 @@ public class LivingEntityMixin {
             cir.setReturnValue(dimensions);
         } else {
             cir.setReturnValue(MorphDimensions.getNormalPlayerDimensions());
+        }
+    }
+
+    @Override
+    public boolean sonariaworld$isGhostEntity() {
+        return sonaria$ghostEntity;
+    }
+
+    @Override
+    public void sonariaworld$setGhostEntity(boolean ghostEntity) {
+        this.sonaria$ghostEntity = ghostEntity;
+    }
+
+    @Inject(
+            method = "hurtServer",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$hurtServer(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) cir.cancel();
+        }
+    }
+
+    @Inject(
+            method = "tick",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$tick(CallbackInfo ci) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "aiStep",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$aiStep(CallbackInfo ci) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "push",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$push(CallbackInfo ci) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "pushEntities",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$pushEntities(CallbackInfo ci) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "isPushable",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$isPushable(CallbackInfoReturnable<Boolean> cir) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) cir.setReturnValue(false);
         }
     }
 }

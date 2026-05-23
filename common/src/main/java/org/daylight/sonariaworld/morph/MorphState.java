@@ -18,8 +18,7 @@ public class MorphState {
     private int variant = 0;
     private boolean dirty = false;
     private LivingEntity morphEntity;
-//    private Player realPlayerEntity;
-    private MorphVisualsInfo morphVisualsInfo = new MorphVisualsInfo(); // means that it shouldn't be used for local player
+    private MorphVisualsInfo morphVisualsInfo = new MorphVisualsInfo();
 
     @Data
     @NoArgsConstructor

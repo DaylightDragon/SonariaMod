@@ -3,6 +3,7 @@ package org.daylight.sonariaworld.neoforge.network.handler.server;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.daylight.sonariaworld.data.GhostCreatureManager;
 import org.daylight.sonariaworld.data.ServerPlayerManager;
 import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.network.payload.MorphRotationDistributionPayload;
@@ -25,6 +26,12 @@ public final class ServerMorphRotationHandler {
             mirrorInfo.setYaw(payload.yaw());
             mirrorInfo.setHeadYaw(payload.headYaw());
             mirrorInfo.setPitch(payload.pitch());
+            mirrorInfo.setInitialized(true);
+
+            GhostCreatureManager.syncGhostRotation(
+                    GhostCreatureManager.get(player),
+                    player
+            );
 
 //            System.out.println("Distributing rotation");
             player.level().getChunkSource().sendToTrackingPlayers(

@@ -1,26 +1,59 @@
 package org.daylight.sonariaworld.mixin;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.Shapes;
-import org.daylight.sonariaworld.client.data.LateInitializations;
-import org.daylight.sonariaworld.morph.MorphService;
-import org.daylight.sonariaworld.morph.MorphState;
+import org.daylight.sonariaworld.mixinrelated.PossibleGhostEntity;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
+    @Inject(
+            method = "shouldBeSaved",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void shouldBeSaved(CallbackInfoReturnable<Boolean> cir) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(
+            method = "canCollideWith",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$canCollideWith(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(
+            method = "canBeCollidedWith",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void sonaria$canBeCollidedWith(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        if((Object) this instanceof PossibleGhostEntity ghostEntity) {
+            if(ghostEntity.sonariaworld$isGhostEntity()) cir.setReturnValue(false);
+        }
+    }
+
+//    @Inject(
+//            method = "getAddEntityPacket",
+//            at = @At("HEAD"),
+//            cancellable = true
+//    )
+//    private void sonaria$preventPacket(ServerEntity serverEntity, CallbackInfoReturnable<Packet<ClientGamePacketListener>> cir) {
+//        if((Object) this instanceof MorphProxyEntity) {
+//            cir.cancel();
+//        }
+//    }
+
 //    @Shadow
 //    public abstract AABB getBoundingBox();
 //

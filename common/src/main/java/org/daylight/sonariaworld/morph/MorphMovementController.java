@@ -115,6 +115,11 @@ public class MorphMovementController {
 //        ClientState.setClientVisualYaw(newYaw);
 
 //        ClientState.setClientSmoothAnimationTargetYaw(newYaw);
+
+        MorphState state = MorphService.get(player);
+        if (state == null) return;
+        MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
+
         ClientState.setClientSmoothAnimationActive(true);
 
         // =========================================================

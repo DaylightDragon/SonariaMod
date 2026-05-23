@@ -6,6 +6,7 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.daylight.sonariaworld.data.GhostCreatureManager;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 import org.daylight.sonariaworld.morph.MorphService;
 import org.daylight.sonariaworld.network.payload.MorphRequestPayload;
@@ -27,7 +28,7 @@ public final class ServerMorphHandler {
                 return;
             }
 
-            System.out.println("Making " + player.getName().getString() + " into " + entityId.toString());
+//            System.out.println("Making " + player.getName().getString() + " into " + entityId.toString());
 
             MorphService.setMorph(
                     player,
@@ -35,6 +36,8 @@ public final class ServerMorphHandler {
                     entityId,
                     payload.variant()
             );
+
+            GhostCreatureManager.get(player);
 
             MorphSyncPayload syncPayload = new MorphSyncPayload(
                     ((IdHolder)player).sonaria$getId(),

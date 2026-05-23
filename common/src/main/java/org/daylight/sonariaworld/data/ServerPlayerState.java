@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import net.minecraft.world.entity.LivingEntity;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
 public class ServerPlayerState {
+    private LivingEntity ghostEntity;
     private CreatureMirrorInfo mirrorInfo = new CreatureMirrorInfo();
     private CreatureSurvivalStats survivalStats = new CreatureSurvivalStats();
 
@@ -18,6 +20,7 @@ public class ServerPlayerState {
     @NoArgsConstructor
     @Accessors(chain = true)
     public class CreatureMirrorInfo {
+        boolean initialized = false;
         float yaw;
         float pitch;
         float headYaw;
@@ -31,21 +34,5 @@ public class ServerPlayerState {
         float stamina;
         float hunger;
         float thurs;
-    }
-
-    public CreatureMirrorInfo getMirrorInfo() {
-        return mirrorInfo;
-    }
-
-    public void setMirrorInfo(CreatureMirrorInfo mirrorInfo) {
-        this.mirrorInfo = mirrorInfo;
-    }
-
-    public CreatureSurvivalStats getSurvivalStats() {
-        return survivalStats;
-    }
-
-    public void setSurvivalStats(CreatureSurvivalStats survivalStats) {
-        this.survivalStats = survivalStats;
     }
 }
