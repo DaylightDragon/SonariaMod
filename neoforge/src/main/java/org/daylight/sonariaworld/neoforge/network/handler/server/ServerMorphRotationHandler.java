@@ -21,12 +21,13 @@ public final class ServerMorphRotationHandler {
 
         context.enqueueWork(() -> {
             ServerPlayerState serverState = ServerPlayerManager.get(player);
-            ServerPlayerState.CreatureMirrorInfo mirrorInfo = serverState.getMirrorInfo();
+            ServerPlayerState.CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
 
-            mirrorInfo.setYaw(payload.yaw());
-            mirrorInfo.setHeadYaw(payload.headYaw());
-            mirrorInfo.setPitch(payload.pitch());
-            mirrorInfo.setInitialized(true);
+            ghostInfo.setYaw(payload.yaw());
+            ghostInfo.setHeadYaw(payload.headYaw());
+            ghostInfo.setPitch(payload.pitch());
+            ghostInfo.setRotationInitialized(true);
+            ghostInfo.setDirty(true);
 
             GhostCreatureManager.syncGhostRotation(
                     GhostCreatureManager.get(player),

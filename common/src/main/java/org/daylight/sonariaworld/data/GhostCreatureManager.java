@@ -4,6 +4,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import org.daylight.sonariaworld.entity.hitboxes.SpeciesHitboxes;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 import org.daylight.sonariaworld.mixinrelated.PossibleGhostEntity;
 import org.daylight.sonariaworld.morph.MorphService;
@@ -84,7 +85,23 @@ public final class GhostCreatureManager {
 
         level.addFreshEntity(living);
 
-//        level.getChunkSource().removeEntity(living);
+        syncGhostPosition(living, player);
+
+        level.getChunkSource().removeEntity(living);
+
+        ServerPlayerState.CreatureGhostInfo ghostInfo = ServerPlayerManager.get(player).getGhostInfo();
+        ghostInfo.setX(player.getX());
+        ghostInfo.setY(player.getY());
+        ghostInfo.setZ(player.getZ());
+        if(!ghostInfo.isRotationInitialized()) {
+            ghostInfo.setYaw(player.getYRot());
+            ghostInfo.setPitch(player.getXRot());
+            ghostInfo.setHeadYaw(player.getYRot());
+        }
+        ghostInfo.setHitboxPresets(SpeciesHitboxes.get(type));
+        ghostInfo.setDirty(true);
+        ghostInfo.updateGlobal();
+        ghostInfo.forceUpdateChildren();
 
         return living;
     }
@@ -101,17 +118,17 @@ public final class GhostCreatureManager {
         if (ghost == null) return;
 
         ServerPlayerState serverState = ServerPlayerManager.get(player);
-        ServerPlayerState.CreatureMirrorInfo mirrorInfo = serverState.getMirrorInfo();
+        ServerPlayerState.CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
 
-        if(mirrorInfo.isInitialized()) {
-            ghost.setYRot(mirrorInfo.getYaw());
-            ghost.yRotO = mirrorInfo.getYaw();
+        if(ghostInfo.isRotationInitialized()) {
+            ghost.setYRot(ghostInfo.getYaw());
+            ghost.yRotO = ghostInfo.getYaw();
 
-            ghost.setXRot(mirrorInfo.getPitch());
-            ghost.xRotO = mirrorInfo.getPitch();
+            ghost.setXRot(ghostInfo.getPitch());
+            ghost.xRotO = ghostInfo.getPitch();
 
-            ghost.setYHeadRot(mirrorInfo.getHeadYaw());
-            ghost.yHeadRotO = mirrorInfo.getHeadYaw();
+            ghost.setYHeadRot(ghostInfo.getHeadYaw());
+            ghost.yHeadRotO = ghostInfo.getHeadYaw();
         } else {
             ghost.setYRot(player.getYRot());
             ghost.setXRot(player.getXRot());

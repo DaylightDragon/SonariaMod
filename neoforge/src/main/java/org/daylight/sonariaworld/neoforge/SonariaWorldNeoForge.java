@@ -64,6 +64,6 @@ public final class SonariaWorldNeoForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        EntityRegistry.registerHitboxPresets();
     }
 }

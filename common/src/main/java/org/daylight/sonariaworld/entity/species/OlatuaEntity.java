@@ -1,6 +1,5 @@
-package org.daylight.sonariaworld.entity;
+package org.daylight.sonariaworld.entity.species;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -13,14 +12,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.daylight.sonariaworld.ModAnimations;
+import org.daylight.sonariaworld.entity.IControllableEntity;
 import org.daylight.sonariaworld.entity.goal.IdlePauseGoal;
 import org.jspecify.annotations.NonNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.manager.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.constant.DefaultAnimations;
-import software.bernie.geckolib.util.ClientUtil;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class OlatuaEntity extends PathfinderMob implements GeoEntity, IControllableEntity {

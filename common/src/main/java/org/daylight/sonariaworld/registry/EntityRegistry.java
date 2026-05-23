@@ -8,15 +8,19 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import org.daylight.sonariaworld.SonariaWorld;
-import org.daylight.sonariaworld.entity.OlatuaEntity;
+import org.daylight.sonariaworld.entity.species.OlatuaEntity;
+import org.daylight.sonariaworld.entity.hitboxes.species.OlatuaHitboxes;
+import org.daylight.sonariaworld.entity.hitboxes.SpeciesHitboxes;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class EntityRegistry {
-    public static void init() {}
-
     public static final Supplier<EntityType<OlatuaEntity>> OLATUA = registerEntity("olatua", OlatuaEntity::new, 0.7f, 1.3f, 0x1F1F1F, 0x0D0D0D);
+
+    public static void init() {
+
+    }
 
     public static void registerEntityAttributes(BiConsumer<EntityType<? extends LivingEntity>, AttributeSupplier> registrar) {
         AttributeSupplier.Builder genericAttribs = PathfinderMob.createMobAttributes()
@@ -38,6 +42,10 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.12D)
                 .add(Attributes.MAX_HEALTH, 1)
                 .build());
+    }
+
+    public static void registerHitboxPresets() {
+        SpeciesHitboxes.register(OLATUA.get(), new OlatuaHitboxes());
     }
 
     private static <T extends Mob> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> entity, float width, float height, int primaryEggColor, int secondaryEggColor) {

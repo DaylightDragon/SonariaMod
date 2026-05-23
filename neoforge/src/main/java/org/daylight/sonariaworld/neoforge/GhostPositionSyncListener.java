@@ -5,6 +5,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import org.daylight.sonariaworld.data.GhostCreatureManager;
+import org.daylight.sonariaworld.data.ServerPlayerManager;
+import org.daylight.sonariaworld.data.ServerPlayerState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,5 +50,11 @@ public final class GhostPositionSyncListener {
                 GhostCreatureManager.get(player),
                 player
         );
+
+        ServerPlayerState.CreatureGhostInfo ghostInfo = ServerPlayerManager.get(player).getGhostInfo();
+        ghostInfo.setX(player.getX());
+        ghostInfo.setY(player.getY());
+        ghostInfo.setZ(player.getZ());
+        ghostInfo.setDirty(true);
     }
 }

@@ -1,0 +1,46 @@
+package org.daylight.sonariaworld.entity.hitboxes.species;
+
+import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
+import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
+import org.daylight.sonariaworld.entity.CreaturePose;
+import org.daylight.sonariaworld.entity.hitboxes.HitboxPresets;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class OlatuaHitboxes implements HitboxPresets {
+    private List<CoordinateSystemComponent> hitboxes = new ArrayList<>();
+    private Hitbox hb1;
+
+    @Override
+    public List<CoordinateSystemComponent> getHitboxes() {
+        return hitboxes;
+    }
+
+    public void init() {
+        hb1 = new Hitbox();
+        hb1.setLocalPosition(0, 0, 0); // here because is static
+        hb1.setLocalRotation(0, 0, 0); // here because is static
+
+        hitboxes.add(hb1);
+
+        updateForPose(CreaturePose.STANDING);
+    }
+
+    public void updateForPose(CreaturePose pose) {
+        switch (pose) {
+            case STANDING, WALKING -> {
+                hb1.setSize(3, 1, 1);
+            }
+            case LYING -> {
+                hb1.setSize(3, 0.8f, 1);
+            }
+            case SITTING -> {
+                hb1.setSize(3, 0.6f, 1);
+            }
+            default -> {
+                hb1.setSize(3, 1, 1);
+            }
+        }
+    }
+}
