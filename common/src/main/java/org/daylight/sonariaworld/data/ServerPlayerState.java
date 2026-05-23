@@ -1,7 +1,6 @@
 package org.daylight.sonariaworld.data;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 import net.minecraft.world.entity.LivingEntity;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
@@ -19,7 +18,8 @@ public class ServerPlayerState {
     private CreatureGhostInfo ghostInfo = new CreatureGhostInfo();
     private CreatureSurvivalStats survivalStats = new CreatureSurvivalStats();
 
-    @Data
+    @Getter
+    @Setter
     @NoArgsConstructor
     @Accessors(chain = true)
     public class CreatureGhostInfo extends CoordinateSystemComponent {
@@ -50,6 +50,7 @@ public class ServerPlayerState {
         @Override
         public void updateGlobal() {
             localTransform.position().set(x, y, z);
+            System.out.println("Set ghost position: " + localTransform.position() + " from x: " + x + " y: " + y + " z: " + z);
 
             localTransform.rotation()
                     .identity()
@@ -58,6 +59,13 @@ public class ServerPlayerState {
                     .rotateZ((float)Math.toRadians(roll));
 
             super.updateGlobal();
+        }
+
+        public void updateHitboxes() {
+            for(CoordinateSystemComponent child : getChildren()) {
+                child.setDirty(true);
+                child.updateGlobal();
+            }
         }
     }
 

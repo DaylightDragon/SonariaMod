@@ -28,6 +28,7 @@ public final class ServerMorphRotationHandler {
             ghostInfo.setPitch(payload.pitch());
             ghostInfo.setRotationInitialized(true);
             ghostInfo.setDirty(true);
+            ghostInfo.updateHitboxes();
 
             GhostCreatureManager.syncGhostRotation(
                     GhostCreatureManager.get(player),

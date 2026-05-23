@@ -8,15 +8,26 @@ import org.daylight.sonariaworld.entity.CreaturePose;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public final class SpeciesHitboxes {
-    private static final Map<EntityType<?>, HitboxPresets> REGISTRY = new HashMap<>();
+    private static final Map<EntityType<?>, Supplier<HitboxPresets>> REGISTRY =
+            new HashMap<>();
 
-    public static void register(EntityType<?> type, HitboxPresets presets) {
-        REGISTRY.put(type, presets);
+    public static void register(
+            EntityType<?> type,
+            Supplier<HitboxPresets> factory
+    ) {
+        REGISTRY.put(type, factory);
     }
 
-    public static HitboxPresets get(EntityType<?> type) {
-        return REGISTRY.get(type);
+    public static HitboxPresets create(EntityType<?> type, CoordinateSystemComponent parentSystem) {
+        Supplier<HitboxPresets> supplier = REGISTRY.get(type);
+        if (supplier == null) return null;
+
+        HitboxPresets presets = supplier.get();
+        presets.init(parentSystem);
+
+        return presets;
     }
 }

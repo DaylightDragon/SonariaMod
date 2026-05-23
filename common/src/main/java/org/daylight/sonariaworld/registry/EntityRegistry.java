@@ -45,7 +45,7 @@ public class EntityRegistry {
     }
 
     public static void registerHitboxPresets() {
-        SpeciesHitboxes.register(OLATUA.get(), new OlatuaHitboxes());
+        SpeciesHitboxes.register(OLATUA.get(), OlatuaHitboxes::new);
     }
 
     private static <T extends Mob> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> entity, float width, float height, int primaryEggColor, int secondaryEggColor) {

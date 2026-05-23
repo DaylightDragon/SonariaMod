@@ -1,13 +1,16 @@
 package org.daylight.sonariaworld.data.coordinatesystems;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.joml.Vector3f;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Accessors(chain = true)
 public abstract class CoordinateSystemComponent {
@@ -32,7 +35,6 @@ public abstract class CoordinateSystemComponent {
     }
 
     public Transform world() {
-        if(dirty) updateGlobal();
         return worldTransform;
     }
 
@@ -40,10 +42,30 @@ public abstract class CoordinateSystemComponent {
         return localTransform;
     }
 
+    public void debugPrint() {
+        if(!getClass().equals(Hitbox.class)) return;
+
+        System.out.println("=== " + getClass().getSimpleName() + " ===");
+
+        System.out.println("Dirty: " + dirty);
+
+        System.out.println("Local Pos: " + local().position());
+        System.out.println("Local Rot: " + local().rotation());
+
+        System.out.println("World Pos: " + world().position());
+        System.out.println("World Rot: " + world().rotation());
+
+        System.out.println("Parent: " + getParentCoordinateSystem());
+    }
+
     public void updateGlobal() {
         if (!dirty) {
             return;
         }
+
+        debugPrint();
+
+        System.out.println("Updating: " + this);
 
         CoordinateSystemComponent parent = getParentCoordinateSystem();
 
@@ -51,6 +73,9 @@ public abstract class CoordinateSystemComponent {
             worldTransform.position().set(localTransform.position());
             worldTransform.rotation().set(localTransform.rotation());
             dirty = false;
+
+            System.out.println("(Early) Result world pos: " + world().position());
+            System.out.println("(Early) Result world rot: " + world().rotation());
             return;
         }
 
@@ -68,14 +93,17 @@ public abstract class CoordinateSystemComponent {
                 .set(parent.world().position())
                 .add(rotated);
 
+        System.out.println("Result world pos: " + world().position());
+        System.out.println("Result world rot: " + world().rotation());
+
         dirty = false;
     }
 
-    public void forceUpdateChildren() {
-        for (CoordinateSystemComponent child : getChildren()) {
-            child.setDirty(true);
-            child.updateGlobal();
-            child.forceUpdateChildren();
-        }
-    }
+//    public void forceUpdateChildren() {
+//        for (CoordinateSystemComponent child : getChildren()) {
+//            child.setDirty(true);
+//            child.updateGlobal();
+//            child.forceUpdateChildren();
+//        }
+//    }
 }

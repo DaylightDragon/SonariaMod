@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface HitboxPresets {
     List<CoordinateSystemComponent> getHitboxes();
-    void init();
+    void init(CoordinateSystemComponent parentSystem);
     void updateForPose(CreaturePose pose);
 }

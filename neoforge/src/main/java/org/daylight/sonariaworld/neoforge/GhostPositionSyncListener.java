@@ -7,8 +7,14 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import org.daylight.sonariaworld.data.GhostCreatureManager;
 import org.daylight.sonariaworld.data.ServerPlayerManager;
 import org.daylight.sonariaworld.data.ServerPlayerState;
+import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
+import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
+import org.daylight.sonariaworld.data.coordinatesystems.Transform;
+import org.daylight.sonariaworld.entity.hitboxes.HitboxPresets;
+import org.joml.Vector3fc;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -56,5 +62,29 @@ public final class GhostPositionSyncListener {
         ghostInfo.setY(player.getY());
         ghostInfo.setZ(player.getZ());
         ghostInfo.setDirty(true);
+        ghostInfo.updateHitboxes();
+
+        HitboxPresets hitboxPresets = ghostInfo.getHitboxPresets();
+        if(hitboxPresets != null) {
+            List<CoordinateSystemComponent> hitboxes = hitboxPresets.getHitboxes();
+            if(!hitboxes.isEmpty()) {
+                Hitbox hitbox = (Hitbox) hitboxes.getFirst();
+                Transform transform = hitbox.getWorldTransform();
+                System.out.println("Pos: " + vec(transform.position()));
+                System.out.println("Rotation: " + transform.rotation());
+                System.out.println("Size: " + hitbox.getSize());
+            } else {
+//                System.out.println(ghostInfo);
+            }
+        }
+    }
+
+    public static String vec(Vector3fc v) {
+        return String.format(
+                "(%.3f, %.3f, %.3f)",
+                v.x(),
+                v.y(),
+                v.z()
+        );
     }
 }

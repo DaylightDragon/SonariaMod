@@ -98,10 +98,10 @@ public final class GhostCreatureManager {
             ghostInfo.setPitch(player.getXRot());
             ghostInfo.setHeadYaw(player.getYRot());
         }
-        ghostInfo.setHitboxPresets(SpeciesHitboxes.get(type));
+        ghostInfo.setHitboxPresets(SpeciesHitboxes.create(type, ghostInfo));
         ghostInfo.setDirty(true);
-        ghostInfo.updateGlobal();
-        ghostInfo.forceUpdateChildren();
+        ghostInfo.updateHitboxes();
+//        ghostInfo.forceUpdateChildren();
 
         return living;
     }

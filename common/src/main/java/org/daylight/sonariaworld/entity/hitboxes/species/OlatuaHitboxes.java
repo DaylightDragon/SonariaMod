@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OlatuaHitboxes implements HitboxPresets {
+    private boolean initialized = false;
     private List<CoordinateSystemComponent> hitboxes = new ArrayList<>();
     private Hitbox hb1;
 
@@ -17,14 +18,18 @@ public class OlatuaHitboxes implements HitboxPresets {
         return hitboxes;
     }
 
-    public void init() {
-        hb1 = new Hitbox();
+    public void init(CoordinateSystemComponent parentSystem) {
+        if(initialized) return;
+
+        hb1 = new Hitbox(parentSystem);
         hb1.setLocalPosition(0, 0, 0); // here because is static
         hb1.setLocalRotation(0, 0, 0); // here because is static
 
         hitboxes.add(hb1);
 
         updateForPose(CreaturePose.STANDING);
+
+        initialized = true;
     }
 
     public void updateForPose(CreaturePose pose) {

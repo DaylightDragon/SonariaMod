@@ -1,13 +1,15 @@
 package org.daylight.sonariaworld.data.coordinatesystems;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
+import org.joml.Vector3f;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Accessors(chain=true)
 public class Hitbox extends CoordinateSystemComponent {
     public enum HitboxType {
@@ -15,7 +17,8 @@ public class Hitbox extends CoordinateSystemComponent {
         ATTACK
     }
 
-    private CoordinateSystemComponent parentCoordinateSystem;
+    @Required
+    private final CoordinateSystemComponent parentCoordinateSystem;
     private float xSize;
     private float ySize;
     private float zSize;
@@ -46,6 +49,10 @@ public class Hitbox extends CoordinateSystemComponent {
                 .rotateZ((float)Math.toRadians(roll));
 
         markDirty();
+    }
+
+    public Vector3f getSize() {
+        return new Vector3f(xSize, ySize, zSize);
     }
 
     public void setSize(float xSize, float ySize, float zSize) {
