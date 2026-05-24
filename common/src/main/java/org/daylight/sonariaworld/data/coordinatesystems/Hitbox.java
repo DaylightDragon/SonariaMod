@@ -24,7 +24,8 @@ public class Hitbox extends CoordinateSystemComponent {
     private float zSize;
 
     private List<CoordinateSystemComponent> children = List.of();
-    private HitboxType hitboxType = HitboxType.DAMAGE_ABSORPTION;
+    @Required
+    private final HitboxType hitboxType;
 
     @Override
     public CoordinateSystemComponent getParentCoordinateSystem() {

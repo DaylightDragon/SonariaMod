@@ -21,7 +21,7 @@ public class OlatuaHitboxes implements HitboxPresets {
     public void init(CoordinateSystemComponent parentSystem) {
         if(initialized) return;
 
-        hb1 = new Hitbox(parentSystem);
+        hb1 = new Hitbox(parentSystem, Hitbox.HitboxType.DAMAGE_ABSORPTION);
         hb1.setLocalPosition(0, 0, 0); // here because is static
         hb1.setLocalRotation(0, 0, 0); // here because is static
 
@@ -35,16 +35,16 @@ public class OlatuaHitboxes implements HitboxPresets {
     public void updateForPose(CreaturePose pose) {
         switch (pose) {
             case STANDING, WALKING -> {
-                hb1.setSize(3, 1, 1);
+                hb1.setSize(1, 1, 3);
             }
             case LYING -> {
-                hb1.setSize(3, 0.8f, 1);
+                hb1.setSize(1, 0.8f, 3);
             }
             case SITTING -> {
-                hb1.setSize(3, 0.6f, 1);
+                hb1.setSize(1, 0.6f, 3);
             }
             default -> {
-                hb1.setSize(3, 1, 1);
+                hb1.setSize(1, 1, 3);
             }
         }
     }

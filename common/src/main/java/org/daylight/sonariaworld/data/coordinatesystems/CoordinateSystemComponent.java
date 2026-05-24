@@ -63,9 +63,9 @@ public abstract class CoordinateSystemComponent {
             return;
         }
 
-        debugPrint();
+//        debugPrint();
 
-        System.out.println("Updating: " + this);
+//        System.out.println("Updating: " + this);
 
         CoordinateSystemComponent parent = getParentCoordinateSystem();
 
@@ -74,8 +74,8 @@ public abstract class CoordinateSystemComponent {
             worldTransform.rotation().set(localTransform.rotation());
             dirty = false;
 
-            System.out.println("(Early) Result world pos: " + world().position());
-            System.out.println("(Early) Result world rot: " + world().rotation());
+//            System.out.println("(Early) Result world pos: " + world().position());
+//            System.out.println("(Early) Result world rot: " + world().rotation());
             return;
         }
 
@@ -93,8 +93,8 @@ public abstract class CoordinateSystemComponent {
                 .set(parent.world().position())
                 .add(rotated);
 
-        System.out.println("Result world pos: " + world().position());
-        System.out.println("Result world rot: " + world().rotation());
+//        System.out.println("Result world pos: " + world().position());
+//        System.out.println("Result world rot: " + world().rotation());
 
         dirty = false;
     }

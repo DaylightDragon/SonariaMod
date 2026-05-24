@@ -50,7 +50,7 @@ public class ServerPlayerState {
         @Override
         public void updateGlobal() {
             localTransform.position().set(x, y, z);
-            System.out.println("Set ghost position: " + localTransform.position() + " from x: " + x + " y: " + y + " z: " + z);
+//            System.out.println("Set ghost position: " + localTransform.position() + " from x: " + x + " y: " + y + " z: " + z);
 
             localTransform.rotation()
                     .identity()
