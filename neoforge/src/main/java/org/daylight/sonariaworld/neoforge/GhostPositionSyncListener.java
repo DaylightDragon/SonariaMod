@@ -10,7 +10,7 @@ import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
 import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
 import org.daylight.sonariaworld.data.coordinatesystems.Transform;
-import org.daylight.sonariaworld.entity.hitboxes.HitboxPresets;
+import org.daylight.sonariaworld.entity.hitboxes.HitboxHolder;
 import org.joml.Vector3fc;
 
 import java.util.HashMap;
@@ -58,21 +58,22 @@ public final class GhostPositionSyncListener {
         );
 
         ServerPlayerState.CreatureGhostInfo ghostInfo = ServerPlayerManager.get(player).getGhostInfo();
+        ghostInfo.setPlayerWorld(player.level());
         ghostInfo.setX(player.getX());
         ghostInfo.setY(player.getY());
         ghostInfo.setZ(player.getZ());
         ghostInfo.setDirty(true);
         ghostInfo.updateHitboxes();
 
-        HitboxPresets hitboxPresets = ghostInfo.getHitboxPresets();
-        if(hitboxPresets != null) {
-            List<CoordinateSystemComponent> hitboxes = hitboxPresets.getHitboxes();
+        HitboxHolder hitboxHolder = ghostInfo.getHitboxHolder();
+        if(hitboxHolder != null) {
+            List<CoordinateSystemComponent> hitboxes = hitboxHolder.getHitboxes();
             if(!hitboxes.isEmpty()) {
                 Hitbox hitbox = (Hitbox) hitboxes.getFirst();
                 Transform transform = hitbox.getWorldTransform();
-                System.out.println("Pos: " + vec(transform.position()));
-                System.out.println("Rotation: " + transform.rotation());
-                System.out.println("Size: " + hitbox.getSize());
+//                System.out.println("Pos: " + vec(transform.position()));
+//                System.out.println("Rotation: " + transform.rotation());
+//                System.out.println("Size: " + hitbox.getSize());
             } else {
 //                System.out.println(ghostInfo);
             }

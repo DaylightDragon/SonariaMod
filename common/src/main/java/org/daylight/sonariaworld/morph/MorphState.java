@@ -7,9 +7,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
-import org.daylight.sonariaworld.entity.hitboxes.HitboxPresets;
+import org.daylight.sonariaworld.entity.hitboxes.HitboxHolder;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class MorphState {
+    private String playerId;
     private boolean morphed = false;
     private Identifier entityIdentifier = null;
     private int variant = 0;
@@ -43,6 +44,7 @@ public class MorphState {
         private float yaw0;
         private float pitch0;
         private float roll0;
+        private Level world;
     }
 
     @Getter
@@ -63,7 +65,7 @@ public class MorphState {
         private float y0;
         private float z0;
 
-        private HitboxPresets hitboxPresets = null;
+        private HitboxHolder hitboxHolder = null;
 
         public MorphVisualsInfo() {
             localTransform.position().set(0, 0, 0);
@@ -76,8 +78,8 @@ public class MorphState {
 
         @Override
         protected List<CoordinateSystemComponent> getChildren() {
-            if(hitboxPresets == null) return List.of();
-            return hitboxPresets.getHitboxes();
+            if(hitboxHolder == null) return List.of();
+            return hitboxHolder.getHitboxes();
         }
 
         @Override
@@ -136,6 +138,18 @@ public class MorphState {
                 child.setDirty(true);
                 child.updateGlobal();
             }
+        }
+
+        @Override
+        public Level getWorld() {
+            if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getWorld();
+            return getRealPlayerCoords().getWorld();
+        }
+
+        @Override
+        public CoordinateSystemComponent getRoot() {
+            if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getRoot();
+            return null;
         }
     }
 }

@@ -90,6 +90,7 @@ public final class GhostCreatureManager {
         level.getChunkSource().removeEntity(living);
 
         ServerPlayerState.CreatureGhostInfo ghostInfo = ServerPlayerManager.get(player).getGhostInfo();
+        ghostInfo.setPlayerWorld(player.level());
         ghostInfo.setX(player.getX());
         ghostInfo.setY(player.getY());
         ghostInfo.setZ(player.getZ());
@@ -98,7 +99,7 @@ public final class GhostCreatureManager {
             ghostInfo.setPitch(player.getXRot());
             ghostInfo.setHeadYaw(player.getYRot());
         }
-        ghostInfo.setHitboxPresets(SpeciesHitboxes.create(type, ghostInfo));
+        ghostInfo.setHitboxHolder(SpeciesHitboxes.create(type, ghostInfo));
         ghostInfo.setDirty(true);
         ghostInfo.updateHitboxes();
 //        ghostInfo.forceUpdateChildren();

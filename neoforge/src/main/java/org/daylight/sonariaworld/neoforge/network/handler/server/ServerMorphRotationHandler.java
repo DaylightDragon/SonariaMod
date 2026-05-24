@@ -23,6 +23,7 @@ public final class ServerMorphRotationHandler {
             ServerPlayerState serverState = ServerPlayerManager.get(player);
             ServerPlayerState.CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
 
+            ghostInfo.setPlayerWorld(player.level());
             ghostInfo.setYaw(payload.yaw());
             ghostInfo.setHeadYaw(payload.headYaw());
             ghostInfo.setPitch(payload.pitch());

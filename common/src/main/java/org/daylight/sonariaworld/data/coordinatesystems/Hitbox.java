@@ -2,7 +2,10 @@ package org.daylight.sonariaworld.data.coordinatesystems;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
+import org.daylight.sonariaworld.data.MathUtils;
+import org.daylight.sonariaworld.data.ServerSpatialSystems;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -60,5 +63,33 @@ public class Hitbox extends CoordinateSystemComponent {
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
+    }
+
+    @Override
+    public Level getWorld() {
+        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getWorld();
+        return null;
+    }
+
+    @Override
+    public CoordinateSystemComponent getRoot() {
+        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getRoot();
+        return null;
+    }
+
+    @Override
+    public void updateGlobal() {
+        Level world = getWorld();
+        if(world == null) return;
+
+        boolean wasDirty = isDirty();
+        super.updateGlobal();
+
+        SpatialHash3D spatialHash = ServerSpatialSystems.getSpatialHash(world);
+        if(wasDirty) spatialHash.update(this);
+    }
+
+    public boolean intersects(Hitbox hitbox) {
+        return MathUtils.intersects(this, hitbox);
     }
 }

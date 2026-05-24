@@ -3,15 +3,16 @@ package org.daylight.sonariaworld.entity.hitboxes.species;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
 import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
 import org.daylight.sonariaworld.entity.CreaturePose;
-import org.daylight.sonariaworld.entity.hitboxes.HitboxPresets;
+import org.daylight.sonariaworld.entity.hitboxes.HitboxHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OlatuaHitboxes implements HitboxPresets {
+public class OlatuaHitboxes implements HitboxHolder {
     private boolean initialized = false;
     private List<CoordinateSystemComponent> hitboxes = new ArrayList<>();
     private Hitbox hb1;
+    private Hitbox ahb2;
 
     @Override
     public List<CoordinateSystemComponent> getHitboxes() {
@@ -25,7 +26,13 @@ public class OlatuaHitboxes implements HitboxPresets {
         hb1.setLocalPosition(0, 0, 0); // here because is static
         hb1.setLocalRotation(0, 0, 0); // here because is static
 
+        ahb2 = new Hitbox(parentSystem, Hitbox.HitboxType.ATTACK);
+        ahb2.setLocalPosition(0, 0, 1.2f);
+        ahb2.setLocalRotation(0, 0, 0);
+        ahb2.setSize(1f, 0.8f, 1f);
+
         hitboxes.add(hb1);
+        hitboxes.add(ahb2);
 
         updateForPose(CreaturePose.STANDING);
 

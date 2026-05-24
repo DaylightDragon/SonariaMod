@@ -5,6 +5,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.daylight.sonariaworld.neoforge.network.handler.client.ClientMorphHandler;
 import org.daylight.sonariaworld.neoforge.network.handler.client.ClientMorphRotationHandler;
+import org.daylight.sonariaworld.neoforge.network.handler.server.ServerPlayerAttackHandler;
 import org.daylight.sonariaworld.neoforge.network.handler.server.ServerMorphHandler;
 import org.daylight.sonariaworld.neoforge.network.handler.server.ServerMorphRotationHandler;
 import org.daylight.sonariaworld.network.payload.*;
@@ -40,6 +41,12 @@ public final class NeoForgeNetwork {
                 MorphRotationDistributionPayload.TYPE,
                 MorphRotationDistributionPayload.STREAM_CODEC,
                 ClientMorphRotationHandler::handle
+        );
+
+        registrar.playToServer(
+                PlayerAttackPayload.TYPE,
+                PlayerAttackPayload.STREAM_CODEC,
+                ServerPlayerAttackHandler::handle
         );
     }
 }

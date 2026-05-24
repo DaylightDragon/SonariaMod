@@ -49,7 +49,7 @@ public final class ClientMorphHandler {
             player.setBoundingBox(player.getBoundingBox());
 
             MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
-            visualsInfo.setHitboxPresets(SpeciesHitboxes.create(type, visualsInfo));
+            visualsInfo.setHitboxHolder(SpeciesHitboxes.create(type, visualsInfo));
             visualsInfo.setDirty(true);
             visualsInfo.updateHitboxes();
 

@@ -110,6 +110,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         Vec3 currentPlayerRotation = new Vec3(player.getXRot(partialTick), player.getYRot(partialTick), 0);
 
         MorphState.InterpolatedCoords realPlayerCoords = state.getRealPlayerCoords();
+        realPlayerCoords.setWorld(player.level());
+
         realPlayerCoords.setX0(realPlayerCoords.getX());
         realPlayerCoords.setY0(realPlayerCoords.getY());
         realPlayerCoords.setZ0(realPlayerCoords.getZ());
@@ -124,7 +126,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
         if(isOverMovementShreshold(realPlayerCoords)) {
             MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
-            if(visualsInfo.getHitboxPresets() != null) {
+            if(visualsInfo.getHitboxHolder() != null) {
                 visualsInfo.setDirty(true);
                 visualsInfo.updateHitboxes();
             }
@@ -154,9 +156,9 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     private void renderHitboxes(Player player, MorphState state, EntityRenderState morphActualRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
         if(!state.isMorphed()) return;
-        if(visualsInfo.getHitboxPresets() == null) return;
+        if(visualsInfo.getHitboxHolder() == null) return;
 
-        for(CoordinateSystemComponent component : visualsInfo.getHitboxPresets().getHitboxes()) {
+        for(CoordinateSystemComponent component : visualsInfo.getHitboxHolder().getHitboxes()) {
             if(component instanceof Hitbox hitbox) {
                 Gizmos.addGizmo(OrientedBoxGizmo.fromHitbox(player, hitbox));
             }

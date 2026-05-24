@@ -13,6 +13,22 @@ public class ServerPlayerManager {
     private ServerPlayerManager() {}
 
     public static ServerPlayerState get(Player player) {
-        return STATES.computeIfAbsent(((IdHolder)player).sonaria$getId(), id -> new ServerPlayerState());
+        return STATES.computeIfAbsent(((IdHolder)player).sonaria$getId(), id -> {
+            ServerPlayerState state = new ServerPlayerState()
+                    .setPlayerId(((IdHolder) player).sonaria$getId());
+            state.getGhostInfo().setPlayerId(((IdHolder) player).sonaria$getId());
+
+            return state;
+        });
+    }
+
+    public static ServerPlayerState get(String playerId) {
+        return STATES.computeIfAbsent(playerId, id -> {
+            ServerPlayerState state = new ServerPlayerState()
+                    .setPlayerId(playerId);
+            state.getGhostInfo().setPlayerId(playerId);
+
+            return state;
+        });
     }
 }

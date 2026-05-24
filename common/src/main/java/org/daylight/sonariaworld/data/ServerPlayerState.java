@@ -3,17 +3,17 @@ package org.daylight.sonariaworld.data;
 import lombok.*;
 import lombok.experimental.Accessors;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
-import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
-import org.daylight.sonariaworld.entity.hitboxes.HitboxPresets;
+import org.daylight.sonariaworld.entity.hitboxes.HitboxHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
 public class ServerPlayerState {
+    private String playerId;
     private LivingEntity ghostEntity;
     private CreatureGhostInfo ghostInfo = new CreatureGhostInfo();
     private CreatureSurvivalStats survivalStats = new CreatureSurvivalStats();
@@ -23,6 +23,8 @@ public class ServerPlayerState {
     @NoArgsConstructor
     @Accessors(chain = true)
     public class CreatureGhostInfo extends CoordinateSystemComponent {
+        private String playerId;
+        private Level playerWorld;
         private double x;
         private double y;
         private double z;
@@ -34,12 +36,12 @@ public class ServerPlayerState {
         private float headYaw;
 
         private boolean rotationInitialized = false;
-        private HitboxPresets hitboxPresets = null;
+        private HitboxHolder hitboxHolder = null;
 
         @Override
         protected List<CoordinateSystemComponent> getChildren() {
-            if(hitboxPresets == null) return List.of();
-            return hitboxPresets.getHitboxes();
+            if(hitboxHolder == null) return List.of();
+            return hitboxHolder.getHitboxes();
         }
 
         @Override
@@ -66,6 +68,18 @@ public class ServerPlayerState {
                 child.setDirty(true);
                 child.updateGlobal();
             }
+        }
+
+        @Override
+        public Level getWorld() {
+            if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getWorld();
+            return getPlayerWorld();
+        }
+
+        @Override
+        public CoordinateSystemComponent getRoot() {
+            if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getRoot();
+            return this;
         }
     }
 

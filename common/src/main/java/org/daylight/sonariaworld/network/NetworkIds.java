@@ -18,6 +18,9 @@ public class NetworkIds {
     public static final Identifier MORPH_ROTATION_UPDATE_DISTRIBUTION =
             Identifier.fromNamespaceAndPath(MOD_ID, "morph_rotation_update_distribution");
 
+    public static final Identifier PLAYER_ATTACK =
+            Identifier.fromNamespaceAndPath(MOD_ID, "player_attack");
+
     private NetworkIds() {
 
     }

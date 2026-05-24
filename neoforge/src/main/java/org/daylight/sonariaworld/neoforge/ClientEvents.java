@@ -14,6 +14,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import org.daylight.sonariaworld.SonariaWorld;
@@ -21,6 +22,7 @@ import org.daylight.sonariaworld.client.SonariaHitboxLayer;
 import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.entity.species.OlatuaEntity;
 import org.daylight.sonariaworld.morph.*;
+import org.daylight.sonariaworld.network.client.ClientMorphApi;
 import org.daylight.sonariaworld.registry.EntityRegistry;
 
 //@EventBusSubscriber(
@@ -94,6 +96,18 @@ public class ClientEvents {
         }
 
 //        MorphMovementController.tick(mc.player);
+    }
+
+    @SubscribeEvent
+    public static void onAttack(InputEvent.InteractionKeyMappingTriggered event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) return;
+
+        if (event.isAttack()) {
+            System.out.println("Attack event");
+            ClientMorphApi.onAttack();
+//            System.out.println("Attack");
+        }
     }
 
     public static void sync(Player player, LivingEntity morph) {

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -106,4 +107,7 @@ public abstract class CoordinateSystemComponent {
 //            child.forceUpdateChildren();
 //        }
 //    }
+
+    public abstract Level getWorld();
+    public abstract CoordinateSystemComponent getRoot();
 }

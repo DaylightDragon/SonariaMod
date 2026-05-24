@@ -19,7 +19,10 @@ public final class MorphService {
     }
 
     public static MorphState get(Player player) {
-        return STATES.computeIfAbsent(((IdHolder)player).sonaria$getId(), id -> new MorphState());
+        return STATES.computeIfAbsent(((IdHolder)player).sonaria$getId(), id ->
+                new MorphState()
+                        .setPlayerId(((IdHolder) player).sonaria$getId())
+        );
     }
 
     public static void setMorph(

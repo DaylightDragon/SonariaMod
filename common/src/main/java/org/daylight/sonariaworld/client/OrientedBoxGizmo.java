@@ -75,7 +75,7 @@ public record OrientedBoxGizmo(
                 width = 1.5f;
             }
             case ATTACK -> {
-                color = ARGB.colorFromFloat(1.0F, 0.0F, 0.0F, 1.0F);
+                color = ARGB.colorFromFloat(1.0F, 1.0F, 0.55F, 0.0F);
                 width = 1.5f;
             }
             default -> {
