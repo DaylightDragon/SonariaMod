@@ -68,4 +68,8 @@ public final class MorphService {
         player.refreshDimensions();
         player.setBoundingBox(player.getBoundingBox());
     }
+
+    public static void fullCleanup() {
+        STATES.clear();
+    }
 }

@@ -1,8 +1,8 @@
-package org.daylight.sonariaworld.data;
+package org.daylight.sonariaworld.data.systems;
 
 import net.minecraft.world.entity.player.Player;
+import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
-import org.daylight.sonariaworld.morph.MorphState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +30,9 @@ public class ServerPlayerManager {
 
             return state;
         });
+    }
+
+    public static void fullCleanup() {
+        STATES.clear();
     }
 }

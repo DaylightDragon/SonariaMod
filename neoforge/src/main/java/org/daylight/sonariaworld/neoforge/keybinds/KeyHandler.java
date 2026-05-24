@@ -8,9 +8,10 @@ import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.SonariaWorld;
 import org.daylight.sonariaworld.client.data.ClientState;
-import org.daylight.sonariaworld.network.client.ClientMorphApi;
+import org.daylight.sonariaworld.network.payload.MorphRequestPayload;
 import org.daylight.sonariaworld.registry.EntityRegistry;
 import org.lwjgl.glfw.GLFW;
 
@@ -35,7 +36,15 @@ public class KeyHandler {
     public static void onClientTick(ClientTickEvent.Post event) {
         while (TOGGLE_MORPH.consumeClick()) {
             System.out.println("Sending toggle morph");
-            ClientMorphApi.requestMorph(Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, "olatua"), 1);
+            if(Minecraft.getInstance().player != null) {
+                Services.CLIENT_NETWORK.sendMorphRequest(
+                        new MorphRequestPayload(
+                                Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, "olatua"),
+                                1
+                        )
+                );
+            }
+
         }
         while (TOGGLE_MOVEMENT_MODE.consumeClick()) {
             ClientState.setMovementMode(ClientState.getMovementMode() == ClientState.MovementMode.VANILLA ?

@@ -1,4 +1,4 @@
-package org.daylight.sonariaworld.client.model.entity;
+package org.daylight.sonariaworld.entity.model.entity;
 
 import net.minecraft.resources.Identifier;
 import org.daylight.sonariaworld.SonariaWorld;

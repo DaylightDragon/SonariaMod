@@ -4,8 +4,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
-import org.daylight.sonariaworld.data.MathUtils;
-import org.daylight.sonariaworld.data.ServerSpatialSystems;
+import org.daylight.sonariaworld.util.MathUtils;
+import org.daylight.sonariaworld.data.systems.ServerSpatialSystems;
 import org.joml.Vector3f;
 
 import java.util.List;

@@ -6,7 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.daylight.sonariaworld.client.renderer.entity.OlatuaEntityRenderer;
+import org.daylight.sonariaworld.entity.renderer.entity.OlatuaEntityRenderer;
 import org.daylight.sonariaworld.registry.EntityRegistry;
 
 import java.util.function.BiConsumer;

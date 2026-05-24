@@ -17,7 +17,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.SonariaWorld;
 import net.neoforged.fml.common.Mod;
-import org.daylight.sonariaworld.data.GhostCreatureManager;
+import org.daylight.sonariaworld.neoforge.events.ClientEvents;
+import org.daylight.sonariaworld.neoforge.events.GhostPositionSyncListener;
+import org.daylight.sonariaworld.neoforge.events.LifecycleEvents;
 import org.daylight.sonariaworld.neoforge.keybinds.KeyHandler;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeClientNetworkBridge;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeNetwork;
@@ -46,8 +48,8 @@ public final class SonariaWorldNeoForge {
         NeoForge.EVENT_BUS.register(ClientEvents.class);
         NeoForge.EVENT_BUS.register(GhostPositionSyncListener.class);
         // gameplay events
-        NeoForge.EVENT_BUS.register(GameEvents.class);
         NeoForge.EVENT_BUS.register(KeyHandler.class);
+        NeoForge.EVENT_BUS.register(LifecycleEvents.class);
 
         SOUND_EVENTS.register(modEventBus);
         BLOCKS.register(modEventBus);

@@ -3,6 +3,7 @@ package org.daylight.sonariaworld.mixin.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -132,14 +133,12 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
             }
         }
 
-        renderHitboxes(player, state, morphActualRenderState, poseStack, submitNodeCollector, cameraRenderState);
+        if(minecraft.debugEntries.isCurrentlyEnabled(DebugScreenEntries.ENTITY_HITBOXES)) {
+            renderHitboxes(player, state, morphActualRenderState, poseStack, submitNodeCollector, cameraRenderState);
+        }
 
         ci.cancel();
     }
-
-//    @Unique
-//    private Vec3 sonaria$prevPos = new Vec3(0.0F, 0.0F, 0.0F);
-//    private Vec3 sonaria$prevRot = new Vec3(0.0F, 0.0F, 0.0F);
 
     @Unique
     private boolean isOverMovementShreshold(MorphState.InterpolatedCoords coords) {
@@ -162,81 +161,6 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
             if(component instanceof Hitbox hitbox) {
                 Gizmos.addGizmo(OrientedBoxGizmo.fromHitbox(player, hitbox));
             }
-        }
-    }
-
-    @Deprecated
-    private static void sonaria$renderOBB(Hitbox box, PoseStack stack, VertexConsumer vc) {
-        Vector3f half = new Vector3f(
-                box.getXSize() * 0.5f,
-                box.getYSize() * 0.5f,
-                box.getZSize() * 0.5f
-        );
-
-        Vector3f[] c = new Vector3f[] {
-                new Vector3f(-half.x, -half.y, -half.z),
-                new Vector3f( half.x, -half.y, -half.z),
-                new Vector3f(-half.x,  half.y, -half.z),
-                new Vector3f( half.x,  half.y, -half.z),
-
-                new Vector3f(-half.x, -half.y,  half.z),
-                new Vector3f( half.x, -half.y,  half.z),
-                new Vector3f(-half.x,  half.y,  half.z),
-                new Vector3f( half.x,  half.y,  half.z)
-        };
-
-        Quaternionf rot = box.world().rotation();
-        Vector3f center = box.world().position();
-
-        for (Vector3f v : c) {
-            v.rotate(rot);
-            v.add(center);
-        }
-
-        Matrix4f mat = stack.last().pose();
-
-        sonaria$draw(vc, mat, c[0], c[1]);
-        sonaria$draw(vc, mat, c[1], c[3]);
-        sonaria$draw(vc, mat, c[3], c[2]);
-        sonaria$draw(vc, mat, c[2], c[0]);
-
-        sonaria$draw(vc, mat, c[4], c[5]);
-        sonaria$draw(vc, mat, c[5], c[7]);
-        sonaria$draw(vc, mat, c[7], c[6]);
-        sonaria$draw(vc, mat, c[6], c[4]);
-
-        sonaria$draw(vc, mat, c[0], c[4]);
-        sonaria$draw(vc, mat, c[1], c[5]);
-        sonaria$draw(vc, mat, c[2], c[6]);
-        sonaria$draw(vc, mat, c[3], c[7]);
-    }
-
-    @Deprecated
-    private static void sonaria$draw(VertexConsumer vc, Matrix4f mat, Vector3f a, Vector3f b) {
-        vc.addVertex(mat, a.x, a.y, a.z);
-        vc.addVertex(mat, b.x, b.y, b.z);
-    }
-
-    @Unique
-    private void sonaria$syncEntity(Player player, LivingEntity morph) {
-        morph.tickCount = player.tickCount;
-        morph.setPose(player.getPose());
-        morph.setSprinting(player.isSprinting());
-        morph.setShiftKeyDown(player.isShiftKeyDown());
-        morph.setSwimming(player.isSwimming());
-        morph.setOnGround(player.onGround());
-    }
-
-    @Unique
-    private void sonaria$syncRenderState(AvatarRenderState playerState, EntityRenderState morphState) {
-        morphState.ageInTicks = playerState.ageInTicks;
-        morphState.shadowRadius = playerState.shadowRadius;
-        morphState.lightCoords = playerState.lightCoords;
-        if (morphState instanceof LivingEntityRenderState livingState) {
-            livingState.pose = playerState.pose;
-            livingState.isInWater = playerState.isInWater;
-            livingState.deathTime = playerState.deathTime;
-            livingState.scale = playerState.scale;
         }
     }
 }

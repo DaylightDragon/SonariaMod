@@ -59,4 +59,8 @@ public final class ClientMorphManager {
 
         return entity;
     }
+
+    public static void fullCleanup() {
+        CACHE.clear();
+    }
 }

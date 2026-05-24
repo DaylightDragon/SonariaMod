@@ -1,9 +1,11 @@
-package org.daylight.sonariaworld.data;
+package org.daylight.sonariaworld.data.systems;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import org.daylight.sonariaworld.data.CreatureGhostInfo;
+import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.entity.hitboxes.SpeciesHitboxes;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 import org.daylight.sonariaworld.mixinrelated.PossibleGhostEntity;
@@ -89,7 +91,7 @@ public final class GhostCreatureManager {
 
         level.getChunkSource().removeEntity(living);
 
-        ServerPlayerState.CreatureGhostInfo ghostInfo = ServerPlayerManager.get(player).getGhostInfo();
+        CreatureGhostInfo ghostInfo = ServerPlayerManager.get(player).getGhostInfo();
         ghostInfo.setPlayerWorld(player.level());
         ghostInfo.setX(player.getX());
         ghostInfo.setY(player.getY());
@@ -119,7 +121,7 @@ public final class GhostCreatureManager {
         if (ghost == null) return;
 
         ServerPlayerState serverState = ServerPlayerManager.get(player);
-        ServerPlayerState.CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
+        CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
 
         if(ghostInfo.isRotationInitialized()) {
             ghost.setYRot(ghostInfo.getYaw());
@@ -150,5 +152,9 @@ public final class GhostCreatureManager {
         living.setInvisible(true);
         syncGhostPosition(living, player);
         syncGhostRotation(living, player);
+    }
+
+    public static void fullCleanup() {
+        ENTITIES.clear();
     }
 }

@@ -1,9 +1,7 @@
-package org.daylight.sonariaworld.data;
+package org.daylight.sonariaworld.data.systems;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.daylight.sonariaworld.data.coordinatesystems.SpatialHash3D;
-import org.daylight.sonariaworld.mixinrelated.IdHolder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,5 +14,9 @@ public class ServerSpatialSystems {
 
     public static SpatialHash3D getSpatialHash(Level level) {
         return WORLD_SPATIAL_HASHES.computeIfAbsent(level, lvl -> new SpatialHash3D(cellSize));
+    }
+
+    public static void fullCleanup() {
+        WORLD_SPATIAL_HASHES.clear();
     }
 }

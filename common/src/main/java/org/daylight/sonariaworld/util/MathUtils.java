@@ -1,4 +1,4 @@
-package org.daylight.sonariaworld.data;
+package org.daylight.sonariaworld.util;
 
 import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
 import org.joml.Matrix3f;

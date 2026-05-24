@@ -2,11 +2,10 @@ package org.daylight.sonariaworld.neoforge.network.handler.server;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
-import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.daylight.sonariaworld.data.GhostCreatureManager;
+import org.daylight.sonariaworld.data.systems.GhostCreatureManager;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 import org.daylight.sonariaworld.morph.MorphService;
 import org.daylight.sonariaworld.network.payload.MorphRequestPayload;

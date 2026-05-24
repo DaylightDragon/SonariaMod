@@ -1,8 +1,8 @@
-package org.daylight.sonariaworld.client.renderer.entity;
+package org.daylight.sonariaworld.entity.renderer.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import org.daylight.sonariaworld.client.model.entity.OlatuaModel;
+import org.daylight.sonariaworld.entity.model.entity.OlatuaModel;
 import org.daylight.sonariaworld.entity.species.OlatuaEntity;
 import org.jspecify.annotations.NonNull;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;

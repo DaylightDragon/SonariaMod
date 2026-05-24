@@ -3,8 +3,9 @@ package org.daylight.sonariaworld.neoforge.network.handler.server;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.daylight.sonariaworld.data.GhostCreatureManager;
-import org.daylight.sonariaworld.data.ServerPlayerManager;
+import org.daylight.sonariaworld.data.CreatureGhostInfo;
+import org.daylight.sonariaworld.data.systems.GhostCreatureManager;
+import org.daylight.sonariaworld.data.systems.ServerPlayerManager;
 import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.network.payload.MorphRotationDistributionPayload;
 import org.daylight.sonariaworld.network.payload.MorphRotationRequestPayload;
@@ -21,7 +22,7 @@ public final class ServerMorphRotationHandler {
 
         context.enqueueWork(() -> {
             ServerPlayerState serverState = ServerPlayerManager.get(player);
-            ServerPlayerState.CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
+            CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
 
             ghostInfo.setPlayerWorld(player.level());
             ghostInfo.setYaw(payload.yaw());

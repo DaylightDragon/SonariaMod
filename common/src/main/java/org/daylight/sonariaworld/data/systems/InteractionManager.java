@@ -1,7 +1,10 @@
-package org.daylight.sonariaworld.data;
+package org.daylight.sonariaworld.data.systems;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
+import org.daylight.sonariaworld.data.CreatureGhostInfo;
+import org.daylight.sonariaworld.data.CreatureSurvivalStats;
+import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
 import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
 import org.daylight.sonariaworld.data.coordinatesystems.SpatialHash3D;
@@ -35,8 +38,9 @@ public class InteractionManager {
         String attackerPlayerId = ((IdHolder) attacker).sonaria$getId();
 
         for(Hitbox hitbox : possiblyAffected) {
+            if(hitbox.getHitboxType() != Hitbox.HitboxType.DAMAGE_ABSORPTION) continue;
             CoordinateSystemComponent root = hitbox.getRoot();
-            if(root instanceof ServerPlayerState.CreatureGhostInfo creatureGhostInfo) {
+            if(root instanceof CreatureGhostInfo creatureGhostInfo) {
                 String victimPlayerId = creatureGhostInfo.getPlayerId();
                 if(!attackerPlayerId.equals(victimPlayerId)) {
                     onEntityDamaged(server, creatureGhostInfo, 10);
@@ -48,9 +52,9 @@ public class InteractionManager {
         }
     }
 
-    public static void onEntityDamaged(MinecraftServer server, ServerPlayerState.CreatureGhostInfo creatureGhostInfo, float damage) {
+    public static void onEntityDamaged(MinecraftServer server, CreatureGhostInfo creatureGhostInfo, float damage) {
         ServerPlayerState state = ServerPlayerManager.get(creatureGhostInfo.getPlayerId());
-        ServerPlayerState.CreatureSurvivalStats survivalStats = state.getSurvivalStats();
+        CreatureSurvivalStats survivalStats = state.getSurvivalStats();
         survivalStats.setHp(survivalStats.getHp() - damage);
 
         System.out.println("Damaged " + creatureGhostInfo.getPlayerId() + " by " + damage + " hp");
