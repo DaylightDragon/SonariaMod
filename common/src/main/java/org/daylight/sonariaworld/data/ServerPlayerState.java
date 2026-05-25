@@ -16,5 +16,5 @@ public class ServerPlayerState {
     private String playerId;
     private LivingEntity ghostEntity;
     private CreatureGhostInfo ghostInfo = new CreatureGhostInfo();
-    private CreatureSurvivalStats survivalStats = new CreatureSurvivalStats();
+    private CreatureCharacter character = new CreatureCharacter();
 }

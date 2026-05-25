@@ -2,8 +2,8 @@ package org.daylight.sonariaworld.data.systems;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
+import org.daylight.sonariaworld.data.CreatureCharacter;
 import org.daylight.sonariaworld.data.CreatureGhostInfo;
-import org.daylight.sonariaworld.data.CreatureSurvivalStats;
 import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
 import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
@@ -54,7 +54,7 @@ public class InteractionManager {
 
     public static void onEntityDamaged(MinecraftServer server, CreatureGhostInfo creatureGhostInfo, float damage) {
         ServerPlayerState state = ServerPlayerManager.get(creatureGhostInfo.getPlayerId());
-        CreatureSurvivalStats survivalStats = state.getSurvivalStats();
+        CreatureCharacter survivalStats = state.getCharacter();
         survivalStats.setHp(survivalStats.getHp() - damage);
 
         System.out.println("Damaged " + creatureGhostInfo.getPlayerId() + " by " + damage + " hp");

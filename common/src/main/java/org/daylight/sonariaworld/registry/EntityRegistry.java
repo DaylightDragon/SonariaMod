@@ -8,16 +8,19 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import org.daylight.sonariaworld.SonariaWorld;
+import org.daylight.sonariaworld.data.systems.SpeciesManager;
 import org.daylight.sonariaworld.entity.species.OlatuaEntity;
 import org.daylight.sonariaworld.entity.hitboxes.species.OlatuaHitboxes;
 import org.daylight.sonariaworld.entity.hitboxes.SpeciesHitboxes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class EntityRegistry {
-    public static final Supplier<EntityType<OlatuaEntity>> OLATUA = registerEntity("olatua", OlatuaEntity::new, 0.7f, 1.3f, 0x1F1F1F, 0x0D0D0D);
-
+    public static final Supplier<? extends EntityType<? extends Mob>> OLATUA = registerEntity("olatua", OlatuaEntity::new, 0.7f, 1.3f, 0x1F1F1F, 0x0D0D0D);
+    private static final List<Supplier<? extends EntityType<? extends Mob>>> shouldRegisterSpecies = new ArrayList<>();
     public static void init() {
 
     }
@@ -48,7 +51,34 @@ public class EntityRegistry {
         SpeciesHitboxes.register(OLATUA.get(), OlatuaHitboxes::new);
     }
 
-    private static <T extends Mob> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> entity, float width, float height, int primaryEggColor, int secondaryEggColor) {
-        return SonariaWorld.COMMON_PLATFORM.registerEntity(name, () -> EntityType.Builder.of(entity, MobCategory.CREATURE).sized(width, height).build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, name))));
+    private static <T extends Mob> Supplier<? extends EntityType<T>> registerEntity(
+            String name,
+            EntityType.EntityFactory<T> entity,
+            float width,
+            float height,
+            int primaryEggColor,
+            int secondaryEggColor
+    ) {
+        Supplier<EntityType<T>> newEntityType =
+                SonariaWorld.COMMON_PLATFORM.registerEntity(
+                        name,
+                        () -> EntityType.Builder.of(entity, MobCategory.CREATURE)
+                                .sized(width, height)
+                                .build(ResourceKey.create(
+                                        Registries.ENTITY_TYPE,
+                                        Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, name)
+                                ))
+                );
+
+        if(shouldRegisterSpecies != null) shouldRegisterSpecies.add(newEntityType);
+
+        return newEntityType;
+    }
+
+    public static void initPost() {
+        for (Supplier<? extends EntityType<? extends Mob>> supplier : shouldRegisterSpecies) {
+            EntityType<? extends Mob> type = supplier.get();
+            SpeciesManager.registerSpecies(type);
+        }
     }
 }
