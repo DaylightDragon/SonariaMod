@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import oshi.util.tuples.Pair;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -23,7 +24,7 @@ public class ColoringData {
                     Codec.unboundedMap(
                                     Codec.STRING,
                                     ColorIdentifier.CODEC
-                            ).fieldOf("coloring")
+                            ).optionalFieldOf("coloring", new HashMap<>())
                             .forGetter(ColoringData::getColoring)
 
             ).apply(instance, ColoringData::new));

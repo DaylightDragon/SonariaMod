@@ -11,16 +11,19 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.SonariaWorld;
 import net.neoforged.fml.common.Mod;
+import org.daylight.sonariaworld.data.systems.CharactersManager;
 import org.daylight.sonariaworld.neoforge.events.ClientEvents;
 import org.daylight.sonariaworld.neoforge.events.GhostPositionSyncListener;
 import org.daylight.sonariaworld.neoforge.events.LifecycleEvents;
-import org.daylight.sonariaworld.neoforge.keybinds.KeyHandler;
+import org.daylight.sonariaworld.neoforge.events.special.CommandsHandler;
+import org.daylight.sonariaworld.neoforge.events.special.KeyHandler;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeClientNetworkBridge;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeNetwork;
 import org.daylight.sonariaworld.neoforge.network.NeoForgeServerNetworkBridge;
@@ -49,6 +52,7 @@ public final class SonariaWorldNeoForge {
         NeoForge.EVENT_BUS.register(GhostPositionSyncListener.class);
         // gameplay events
         NeoForge.EVENT_BUS.register(KeyHandler.class);
+        NeoForge.EVENT_BUS.register(CommandsHandler.class);
         NeoForge.EVENT_BUS.register(LifecycleEvents.class);
 
         SOUND_EVENTS.register(modEventBus);
@@ -63,10 +67,10 @@ public final class SonariaWorldNeoForge {
         Services.SERVER_NETWORK = new NeoForgeServerNetworkBridge();
 
         SonariaWorld.doRegistrations();
+        CharactersManager.init(FMLPaths.GAMEDIR.get());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         EntityRegistry.registerHitboxPresets();
-        SonariaWorld.initPostRegistering();
     }
 }

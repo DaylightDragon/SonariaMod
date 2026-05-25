@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class MorphDimensions {
-    private MorphDimensions() {
-
-    }
+    private MorphDimensions() {}
 
     private static final Map<EntityType<?>, EnumMap<Pose, EntityDimensions>> DIMENSIONS = new HashMap<>();
     private static EntityDimensions normalPlayerDimensions = null;
@@ -21,8 +19,6 @@ public final class MorphDimensions {
                 0.9F,
                 0.8F
         );
-
-        // register(...);
     }
 
     public static EntityDimensions get(

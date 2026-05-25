@@ -16,7 +16,7 @@ public class AppliedEffectProperties {
 
     public static final Codec<AppliedEffectProperties> CODEC =
             RecordCodecBuilder.create(instance -> instance.group(
-                    Codec.FLOAT.fieldOf("duration")
+                    Codec.FLOAT.optionalFieldOf("duration", 1f)
                             .forGetter(AppliedEffectProperties::getDurationLeft)
 
             ).apply(instance, AppliedEffectProperties::new));

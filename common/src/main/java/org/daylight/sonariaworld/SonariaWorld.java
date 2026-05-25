@@ -23,8 +23,4 @@ public final class SonariaWorld {
 //        ArmorMaterialRegistry.init();
 //        ItemRegistry.init();
     }
-
-    public static void initPostRegistering() {
-        EntityRegistry.initPost();
-    }
 }

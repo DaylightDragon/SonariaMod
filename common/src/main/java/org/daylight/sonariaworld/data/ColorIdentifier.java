@@ -21,10 +21,10 @@ public class ColorIdentifier {
 
     public static final Codec<ColorIdentifier> CODEC =
             RecordCodecBuilder.create(instance -> instance.group(
-                    SecondaryPalettePreset.CODEC.fieldOf("secondaryPalette")
+                    SecondaryPalettePreset.CODEC.optionalFieldOf("secondaryPalette", SecondaryPalettePreset.NONE)
                             .forGetter(ColorIdentifier::getSecondaryPalette),
 
-                    Codec.INT.fieldOf("colorId")
+                    Codec.INT.optionalFieldOf("colorId", 0)
                             .forGetter(ColorIdentifier::getColorId)
 
             ).apply(instance, ColorIdentifier::new));

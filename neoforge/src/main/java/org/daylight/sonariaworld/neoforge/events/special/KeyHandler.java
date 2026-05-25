@@ -1,4 +1,4 @@
-package org.daylight.sonariaworld.neoforge.keybinds;
+package org.daylight.sonariaworld.neoforge.events.special;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -12,7 +12,6 @@ import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.SonariaWorld;
 import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.network.payload.MorphRequestPayload;
-import org.daylight.sonariaworld.registry.EntityRegistry;
 import org.lwjgl.glfw.GLFW;
 
 public class KeyHandler {

@@ -20,10 +20,7 @@ import java.util.function.Supplier;
 
 public class EntityRegistry {
     public static final Supplier<? extends EntityType<? extends Mob>> OLATUA = registerEntity("olatua", OlatuaEntity::new, 0.7f, 1.3f, 0x1F1F1F, 0x0D0D0D);
-    private static final List<Supplier<? extends EntityType<? extends Mob>>> shouldRegisterSpecies = new ArrayList<>();
-    public static void init() {
-
-    }
+    public static void init() {}
 
     public static void registerEntityAttributes(BiConsumer<EntityType<? extends LivingEntity>, AttributeSupplier> registrar) {
         AttributeSupplier.Builder genericAttribs = PathfinderMob.createMobAttributes()
@@ -70,15 +67,8 @@ public class EntityRegistry {
                                 ))
                 );
 
-        if(shouldRegisterSpecies != null) shouldRegisterSpecies.add(newEntityType);
+        SpeciesManager.registerSpecies(newEntityType);
 
         return newEntityType;
-    }
-
-    public static void initPost() {
-        for (Supplier<? extends EntityType<? extends Mob>> supplier : shouldRegisterSpecies) {
-            EntityType<? extends Mob> type = supplier.get();
-            SpeciesManager.registerSpecies(type);
-        }
     }
 }
