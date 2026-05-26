@@ -26,38 +26,29 @@ public final class ClientMorphHandler {
             Player player = PlayerLookup.client(payload.playerId());
             if (player == null) return;
 
-            Identifier entityId = payload.entityId();
-            if (!BuiltInRegistries.ENTITY_TYPE.containsKey(entityId)) return;
-            EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getValue(entityId);
-
-            System.out.println("Received morph sync:");
-            System.out.println("Player: " + payload.playerId());
-            System.out.println("Entity: " + payload.entityId());
-            System.out.println("Variant: " + payload.variant());
-            System.out.println("Morphed: " + payload.morphed());
-
-//            MorphState state = MorphData.get(player);
             MorphState state = MorphService.get(player);
-
             state.setMorphed(payload.morphed());
-            state.setEntityIdentifier(payload.entityId());
-            state.setVariant(payload.variant());
-
             state.setDirty(true);
 
-            player.refreshDimensions();
-            player.setBoundingBox(player.getBoundingBox());
+            if(payload.morphed()) {
+                Identifier entityId = payload.entityId();
+                if (!BuiltInRegistries.ENTITY_TYPE.containsKey(entityId)) return;
+                EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getValue(entityId);
 
-            MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
-            visualsInfo.setHitboxHolder(SpeciesHitboxes.create(type, visualsInfo));
-            visualsInfo.setDirty(true);
-            visualsInfo.updateHitboxes();
+                state.setEntityIdentifier(payload.entityId());
+                state.setVariant(payload.variant());
 
-            // Тут уже:
-            // - обновление client cache
-            // - refresh renderer
-            // - refresh animations
-            // - refresh hitbox visuals
+                player.refreshDimensions();
+                player.setBoundingBox(player.getBoundingBox());
+
+                MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
+                visualsInfo.setHitboxHolder(SpeciesHitboxes.create(type, visualsInfo));
+                visualsInfo.setDirty(true);
+                visualsInfo.updateHitboxes();
+            } else {
+                player.refreshDimensions();
+                player.setBoundingBox(player.getBoundingBox());
+            }
         });
     }
 }

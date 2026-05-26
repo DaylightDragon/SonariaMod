@@ -14,6 +14,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.daylight.sonariaworld.SonariaWorld;
 import org.daylight.sonariaworld.data.CreatureCharacter;
 import org.daylight.sonariaworld.data.systems.CharactersManager;
+import org.daylight.sonariaworld.data.systems.MorphRequestsManager;
 import org.daylight.sonariaworld.data.systems.SpeciesManager;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 import org.daylight.sonariaworld.neoforge.network.handler.server.ServerMorphHandler;
@@ -146,11 +147,18 @@ public class CommandsHandler {
                                                                             uuid
                                                                     );
 
-                                                            ServerMorphHandler.morphPlayer(player, Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, character.getSpeciesId()), 1);
+                                                            MorphRequestsManager.morphPlayer(player, Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, character.getSpeciesId()), 1);
 
                                                             return 1;
                                                         })
                                         )
+                        )
+                        .then(
+                            Commands.literal("unmorph")
+                                    .executes(context -> {
+                                        MorphRequestsManager.unmorphPlayer(context.getSource().getPlayerOrException());
+                                        return 1;
+                                    })
                         )
         );
     }

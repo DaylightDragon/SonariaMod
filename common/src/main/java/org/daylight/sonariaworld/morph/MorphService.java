@@ -1,10 +1,12 @@
 package org.daylight.sonariaworld.morph;
 
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.Services;
+import org.daylight.sonariaworld.SonariaWorld;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
 
@@ -56,14 +58,21 @@ public final class MorphService {
     public static void sync(ServerPlayer player) {
         MorphState state = get(player);
 
-        MorphSyncPayload payload = new MorphSyncPayload(
+        MorphSyncPayload syncPayload = new MorphSyncPayload(
                 ((IdHolder)player).sonaria$getId(),
-                state.getEntityIdentifier(),
+                state.isMorphed() ? state.getEntityIdentifier() : Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, "none"),
                 state.getVariant(),
                 state.isMorphed()
         );
 
-        Services.SERVER_NETWORK.syncMorph(player, payload);
+        player.connection.send(new ClientboundCustomPayloadPacket(syncPayload));
+
+        player.level().getChunkSource().sendToTrackingPlayers(
+                player,
+                new ClientboundCustomPayloadPacket(syncPayload)
+        );
+
+//        Services.SERVER_NETWORK.syncMorph(player, payload);
 
         player.refreshDimensions();
         player.setBoundingBox(player.getBoundingBox());

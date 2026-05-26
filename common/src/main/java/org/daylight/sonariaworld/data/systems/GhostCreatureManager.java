@@ -2,6 +2,7 @@ package org.daylight.sonariaworld.data.systems;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.data.CreatureGhostInfo;
@@ -156,5 +157,12 @@ public final class GhostCreatureManager {
 
     public static void fullCleanup() {
         ENTITIES.clear();
+    }
+
+    public static void clearGhost(ServerPlayer player) {
+        String id = ((IdHolder) player).sonaria$getId();
+        LivingEntity ghost = ENTITIES.get(id);
+        if(ghost != null) ghost.remove(Entity.RemovalReason.DISCARDED);
+        ENTITIES.remove(id);
     }
 }
