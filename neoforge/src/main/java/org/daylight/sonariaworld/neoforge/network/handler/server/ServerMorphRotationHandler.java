@@ -27,8 +27,8 @@ public final class ServerMorphRotationHandler {
             ghostInfo.setPlayerWorld(player.level());
             ghostInfo.setYaw(payload.yaw());
             ghostInfo.setHeadYaw(payload.headYaw());
-            ghostInfo.setPitch(payload.pitch());
-            ghostInfo.setRotationInitialized(true);
+            ghostInfo.setPitch(payload.headPitch());
+            ghostInfo.setHeadPitch(payload.pitch());
             ghostInfo.setDirty(true);
             ghostInfo.updateHitboxes();
 

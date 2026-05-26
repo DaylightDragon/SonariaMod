@@ -13,13 +13,15 @@ import org.daylight.sonariaworld.network.payload.MorphRotationRequestPayload;
 public class ClientMorphRotationSender {
     private static final float YAW_THRESHOLD = 1.5F;
     private static final float PITCH_THRESHOLD = 1.5F;
+    private static final float ROLL_THRESHOLD = 1.5F;
     private static final float HEAD_YAW_THRESHOLD = 1.5F;
+    private static final float HEAD_PITCH_THRESHOLD = 1.5F;
 
     private static float lastSentYaw;
     private static float lastSentPitch;
+    private static float lastSentRoll;
     private static float lastSentHeadYaw;
-
-    private static boolean initialized = false;
+    private static float lastSentHeadPitch;
 
     private ClientMorphRotationSender() {}
 
@@ -40,48 +42,52 @@ public class ClientMorphRotationSender {
 
         float yaw = normalize(morph.getYRot());
         float pitch = normalize(morph.getXRot());
+        float roll = 0; //normalize(morph.getRoll())
         float headYaw = normalize(morph.getYHeadRot());
+        float headPitch = normalize(morph.getXRot());
 
         yaw = Mth.wrapDegrees(yaw);
         pitch = Mth.wrapDegrees(pitch);
         headYaw = Mth.wrapDegrees(headYaw);
 
-        if (!initialized) {
-            forceSend(yaw, pitch, headYaw);
-            initialized = true;
-            return;
-        }
-
         boolean changed =
                 angleDistance(yaw, lastSentYaw) >= YAW_THRESHOLD
                         || angleDistance(pitch, lastSentPitch) >= PITCH_THRESHOLD
-                        || angleDistance(headYaw, lastSentHeadYaw) >= HEAD_YAW_THRESHOLD;
+                        || angleDistance(roll, lastSentRoll) >= ROLL_THRESHOLD
+                        || angleDistance(headYaw, lastSentHeadYaw) >= HEAD_YAW_THRESHOLD
+                        || angleDistance(headPitch, lastSentHeadPitch) >= HEAD_PITCH_THRESHOLD;
 
         if (!changed) {
             return;
         }
 
-        forceSend(yaw, pitch, headYaw);
+        forceSend(yaw, pitch, roll, headYaw, headPitch);
     }
 
     private static void forceSend(
             float yaw,
             float pitch,
-            float headYaw
+            float roll,
+            float headYaw,
+            float headPitch
     ) {
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
 
         lastSentYaw = yaw;
         lastSentPitch = pitch;
+        lastSentRoll = roll;
         lastSentHeadYaw = headYaw;
+        lastSentHeadPitch = headPitch;
 
         Services.CLIENT_NETWORK.sendMorphRotation(
                 new MorphRotationRequestPayload(
                         ((IdHolder)player).sonaria$getId(),
                         yaw,
                         pitch,
-                        headYaw
+                        roll,
+                        headYaw,
+                        headPitch
                 )
         );
     }
@@ -102,9 +108,5 @@ public class ClientMorphRotationSender {
         }
 
         return angle;
-    }
-
-    public static void reset() {
-        initialized = false;
     }
 }

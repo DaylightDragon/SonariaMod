@@ -97,11 +97,11 @@ public final class GhostCreatureManager {
         ghostInfo.setX(player.getX());
         ghostInfo.setY(player.getY());
         ghostInfo.setZ(player.getZ());
-        if(!ghostInfo.isRotationInitialized()) {
-            ghostInfo.setYaw(player.getYRot());
-            ghostInfo.setPitch(player.getXRot());
-            ghostInfo.setHeadYaw(player.getYRot());
-        }
+        ghostInfo.setYaw(player.getYRot());
+//        ghostInfo.setPitch(player.getXRot());
+        ghostInfo.setPitch(0);
+        ghostInfo.setHeadYaw(player.getYRot());
+        ghostInfo.setHeadPitch(player.getXRot());
         ghostInfo.setHitboxHolder(SpeciesHitboxes.create(type, ghostInfo));
         ghostInfo.setDirty(true);
         ghostInfo.updateHitboxes();
@@ -124,22 +124,14 @@ public final class GhostCreatureManager {
         ServerPlayerState serverState = ServerPlayerManager.get(player);
         CreatureGhostInfo ghostInfo = serverState.getGhostInfo();
 
-        if(ghostInfo.isRotationInitialized()) {
-            ghost.setYRot(ghostInfo.getYaw());
-            ghost.yRotO = ghostInfo.getYaw();
+        ghost.setYRot(ghostInfo.getYaw());
+        ghost.yRotO = ghostInfo.getYaw();
 
-            ghost.setXRot(ghostInfo.getPitch());
-            ghost.xRotO = ghostInfo.getPitch();
+        ghost.setXRot(ghostInfo.getPitch());
+        ghost.xRotO = ghostInfo.getPitch();
 
-            ghost.setYHeadRot(ghostInfo.getHeadYaw());
-            ghost.yHeadRotO = ghostInfo.getHeadYaw();
-        } else {
-            ghost.setYRot(player.getYRot());
-            ghost.setXRot(player.getXRot());
-
-            ghost.yRotO = ghost.getYRot();
-            ghost.xRotO = ghost.getXRot();
-        }
+        ghost.setYHeadRot(ghostInfo.getHeadYaw());
+        ghost.yHeadRotO = ghostInfo.getHeadYaw();
     }
 
     private static void configureGhost(

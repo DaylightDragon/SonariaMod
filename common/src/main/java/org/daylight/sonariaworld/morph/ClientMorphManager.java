@@ -6,6 +6,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import org.daylight.sonariaworld.data.ClientMorphVisualsInfo;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 
 import java.util.HashMap;
@@ -53,10 +54,37 @@ public final class ClientMorphManager {
             return null;
         }
 
-        System.out.println("Put cache: " + ((IdHolder)player).sonaria$getId() + " " + entity);
+        onEntityCreation(entity, player);
+
+//        System.out.println("Put cache: " + ((IdHolder)player).sonaria$getId() + " " + entity);
         CACHE.put(((IdHolder)player).sonaria$getId(), entity);
 
         return entity;
+    }
+
+    private static void onEntityCreation(LivingEntity entity, Player player) {
+        entity.setYRot(player.getYRot());
+        entity.yRotO = player.yRotO;
+        entity.getXRot(player.getXRot());
+        entity.xRotO = player.xRotO;
+        entity.setYBodyRot(player.yBodyRot);
+        entity.yBodyRotO = player.yBodyRotO;
+        entity.setYHeadRot(player.getYHeadRot());
+        entity.yHeadRotO = player.yHeadRotO;
+
+        MorphState state = MorphStateService.get(player);
+        ClientMorphVisualsInfo visualsInfo = state.getClientMorphVisualsInfo();
+
+        visualsInfo.setMorphYaw(player.getYRot());
+        visualsInfo.setMorphYaw0(player.yRotO);
+        visualsInfo.setMorphHeadYaw(player.getYHeadRot());
+        visualsInfo.setMorphHeadYaw0(player.yHeadRotO);
+        visualsInfo.setMorphPitch(0);
+        visualsInfo.setMorphPitch0(0);
+//        visualsInfo.setMorphHeadPitch(player.getXRot()); // TODO
+//        visualsInfo.setMorphHeadPitch0(player.xRotO);
+        visualsInfo.setMorphRoll(0);
+        visualsInfo.setMorphRoll0(0);
     }
 
     public static void fullCleanup() {

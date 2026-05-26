@@ -10,7 +10,9 @@ public record MorphRotationRequestPayload(
         String playerId,
         float yaw,
         float pitch,
-        float headYaw
+        float roll,
+        float headYaw,
+        float headPitch
 ) implements CustomPacketPayload {
     public static final Type<MorphRotationRequestPayload> TYPE =
             new Type<>(NetworkIds.MORPH_ROTATION_UPDATE_REQUEST);
@@ -27,13 +29,17 @@ public record MorphRotationRequestPayload(
     ) {
         buf.writeUtf(payload.playerId());
         buf.writeFloat(payload.yaw());
-        buf.writeFloat(payload.headYaw());
         buf.writeFloat(payload.pitch());
+        buf.writeFloat(payload.roll());
+        buf.writeFloat(payload.headYaw());
+        buf.writeFloat(payload.headPitch());
     }
 
     private static MorphRotationRequestPayload read(RegistryFriendlyByteBuf buf) {
         return new MorphRotationRequestPayload(
                 buf.readUtf(),
+                buf.readFloat(),
+                buf.readFloat(),
                 buf.readFloat(),
                 buf.readFloat(),
                 buf.readFloat()

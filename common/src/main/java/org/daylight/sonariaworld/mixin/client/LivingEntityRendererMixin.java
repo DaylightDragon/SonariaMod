@@ -19,6 +19,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.daylight.sonariaworld.client.OrientedBoxGizmo;
+import org.daylight.sonariaworld.data.ClientMorphVisualsInfo;
+import org.daylight.sonariaworld.data.InterpolatedCoords;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
 import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
 import org.daylight.sonariaworld.mixinrelated.MorphRenderState;
@@ -73,16 +75,16 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         float yaw;
         float headYaw;
 //        System.out.println(morphRenderState + " " + player);
-        MorphState.MorphVisualsInfo morphVisualsInfo = state.getMorphVisualsInfo();
+        ClientMorphVisualsInfo clientMorphVisualsInfo = state.getClientMorphVisualsInfo();
 
         yaw = Mth.rotLerp(
                 partialTick,
-                morphVisualsInfo.getMorphYaw0(),
-                morphVisualsInfo.getMorphYaw()
+                clientMorphVisualsInfo.getMorphYaw0(),
+                clientMorphVisualsInfo.getMorphYaw()
         );
         headYaw = yaw;
 
-        morphVisualsInfo.setMorphYaw0(yaw);
+        clientMorphVisualsInfo.setMorphYaw0(yaw);
 
         morph.setYRot(yaw);
         morph.setYHeadRot(headYaw);
@@ -106,7 +108,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         Vec3 currentPlayerPosition = player.getPosition(partialTick);
         Vec3 currentPlayerRotation = new Vec3(player.getXRot(partialTick), player.getYRot(partialTick), 0);
 
-        MorphState.InterpolatedCoords realPlayerCoords = state.getRealPlayerCoords();
+        InterpolatedCoords realPlayerCoords = state.getRealPlayerCoords();
         realPlayerCoords.setWorld(player.level());
 
         realPlayerCoords.setX0(realPlayerCoords.getX());
@@ -122,7 +124,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         realPlayerCoords.setPitch(realPlayerCoords.getPitch());
 
         if(isOverMovementShreshold(realPlayerCoords)) {
-            MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
+            ClientMorphVisualsInfo visualsInfo = state.getClientMorphVisualsInfo();
             if(visualsInfo.getHitboxHolder() != null) {
                 visualsInfo.setDirty(true);
                 visualsInfo.updateHitboxes();
@@ -137,7 +139,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     }
 
     @Unique
-    private boolean isOverMovementShreshold(MorphState.InterpolatedCoords coords) {
+    private boolean isOverMovementShreshold(InterpolatedCoords coords) {
         double movementThreshold = 0.0004d;
         float rotationDegreesThreshold = 0.01f;
         if(Math.abs(coords.getX() - coords.getX0()) >= movementThreshold) return true;
@@ -149,7 +151,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     }
 
     private void renderHitboxes(Player player, MorphState state, EntityRenderState morphActualRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
-        MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
+        ClientMorphVisualsInfo visualsInfo = state.getClientMorphVisualsInfo();
         if(!state.isMorphed()) return;
         if(visualsInfo.getHitboxHolder() == null) return;
 

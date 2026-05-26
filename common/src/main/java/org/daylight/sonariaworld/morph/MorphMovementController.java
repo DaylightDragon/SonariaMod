@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.daylight.sonariaworld.client.data.ClientState;
+import org.daylight.sonariaworld.data.ClientMorphVisualsInfo;
 import org.joml.Vector3fc;
 
 public class MorphMovementController {
@@ -85,7 +86,7 @@ public class MorphMovementController {
         // TARGET ROTATION
         // =========================================================
 
-        MorphState.MorphVisualsInfo morphVisualsInfo = MorphStateService.get(player).getMorphVisualsInfo();
+        ClientMorphVisualsInfo clientMorphVisualsInfo = MorphStateService.get(player).getClientMorphVisualsInfo();
 
         float targetYaw;
 
@@ -97,7 +98,7 @@ public class MorphMovementController {
             targetYaw = morph.getYRot();
         }
 
-        float currentYaw = morphVisualsInfo.getMorphYaw(); // ClientState.getClientVisualYaw();
+        float currentYaw = clientMorphVisualsInfo.getMorphYaw(); // ClientState.getClientVisualYaw();
 
         float newYaw = Mth.rotLerp(
                 ROTATION_SPEED,
@@ -106,8 +107,8 @@ public class MorphMovementController {
         );
 
 
-        morphVisualsInfo.setMorphYaw0(currentYaw);
-        morphVisualsInfo.setMorphYaw(newYaw);
+        clientMorphVisualsInfo.setMorphYaw0(currentYaw);
+        clientMorphVisualsInfo.setMorphYaw(newYaw);
 
         // pitch in progress. later use that in rendering
 
@@ -118,7 +119,7 @@ public class MorphMovementController {
 
         MorphState state = MorphStateService.get(player);
         if (state == null) return;
-        MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
+        ClientMorphVisualsInfo visualsInfo = state.getClientMorphVisualsInfo();
 
         ClientState.setClientSmoothAnimationActive(true);
 

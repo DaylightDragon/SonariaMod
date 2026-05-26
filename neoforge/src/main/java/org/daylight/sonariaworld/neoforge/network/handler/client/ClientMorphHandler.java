@@ -6,6 +6,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.daylight.sonariaworld.data.ClientMorphVisualsInfo;
 import org.daylight.sonariaworld.entity.hitboxes.SpeciesHitboxes;
 import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
@@ -41,7 +42,7 @@ public final class ClientMorphHandler {
                 player.refreshDimensions();
                 player.setBoundingBox(player.getBoundingBox());
 
-                MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
+                ClientMorphVisualsInfo visualsInfo = state.getClientMorphVisualsInfo();
                 visualsInfo.setHitboxHolder(SpeciesHitboxes.create(type, visualsInfo));
                 visualsInfo.setDirty(true);
                 visualsInfo.updateHitboxes();

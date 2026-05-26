@@ -26,8 +26,8 @@ public class CreatureGhostInfo extends CoordinateSystemComponent {
     private float roll;
 
     private float headYaw;
+    private float headPitch;
 
-    private boolean rotationInitialized = false;
     private HitboxHolder hitboxHolder = null;
 
     @Override

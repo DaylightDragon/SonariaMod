@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.daylight.sonariaworld.data.ClientMorphVisualsInfo;
 import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.daylight.sonariaworld.network.payload.MorphRotationDistributionPayload;
@@ -24,11 +25,11 @@ public final class ClientMorphRotationHandler {
             if (player == null) return;
 
             MorphState state = MorphStateService.get(player);
-            MorphState.MorphVisualsInfo morphVisualsInfo = state.getMorphVisualsInfo();
+            ClientMorphVisualsInfo clientMorphVisualsInfo = state.getClientMorphVisualsInfo();
 
-            morphVisualsInfo.setMorphYaw(Mth.wrapDegrees(payload.yaw()));
-            morphVisualsInfo.setMorphHeadYaw(Mth.wrapDegrees(payload.headYaw()));
-            morphVisualsInfo.setMorphPitch(Mth.wrapDegrees(payload.pitch()));
+            clientMorphVisualsInfo.setMorphYaw(Mth.wrapDegrees(payload.yaw()));
+            clientMorphVisualsInfo.setMorphHeadYaw(Mth.wrapDegrees(payload.headYaw()));
+            clientMorphVisualsInfo.setMorphPitch(Mth.wrapDegrees(payload.pitch()));
 
 //            System.out.println("New rotation set: " + morphVisualsInfo);
         });
