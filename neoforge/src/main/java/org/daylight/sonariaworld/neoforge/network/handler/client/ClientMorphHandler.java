@@ -7,7 +7,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.daylight.sonariaworld.entity.hitboxes.SpeciesHitboxes;
-import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.daylight.sonariaworld.network.payload.MorphSyncPayload;
 import org.daylight.sonariaworld.util.PlayerLookup;
@@ -26,7 +26,7 @@ public final class ClientMorphHandler {
             Player player = PlayerLookup.client(payload.playerId());
             if (player == null) return;
 
-            MorphState state = MorphService.get(player);
+            MorphState state = MorphStateService.get(player);
             state.setMorphed(payload.morphed());
             state.setDirty(true);
 

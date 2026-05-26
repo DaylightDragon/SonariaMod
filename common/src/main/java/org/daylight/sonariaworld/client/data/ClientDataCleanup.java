@@ -1,7 +1,7 @@
 package org.daylight.sonariaworld.client.data;
 
 import org.daylight.sonariaworld.morph.ClientMorphManager;
-import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.util.PlayerLookup;
 
 public class ClientDataCleanup {
@@ -9,7 +9,7 @@ public class ClientDataCleanup {
         ClientState.setMovementMode(ClientState.MovementMode.PHYSICAL);
         ClientState.setClientSmoothAnimationActive(false);
 
-        MorphService.fullCleanup();
+        MorphStateService.fullCleanup();
         ClientMorphManager.fullCleanup();
         PlayerLookup.clear();
     }

@@ -1,7 +1,6 @@
 package org.daylight.sonariaworld.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.model.EntityModel;
@@ -23,11 +22,8 @@ import org.daylight.sonariaworld.client.OrientedBoxGizmo;
 import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponent;
 import org.daylight.sonariaworld.data.coordinatesystems.Hitbox;
 import org.daylight.sonariaworld.mixinrelated.MorphRenderState;
-import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -55,7 +51,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         Player player = (Player) morphRenderState.sonaria$getRealPlayerEntity();
         if(player == null) return;
 
-        MorphState state = MorphService.get(player);
+        MorphState state = MorphStateService.get(player);
         if(!state.isMorphed()) return;
 
         LivingEntity morph = state.getMorphEntity(); // ClientMorphManager.getRenderEntity(player);

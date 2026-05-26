@@ -10,7 +10,7 @@ import org.daylight.sonariaworld.data.ServerPlayerState;
 import org.daylight.sonariaworld.entity.hitboxes.SpeciesHitboxes;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
 import org.daylight.sonariaworld.mixinrelated.PossibleGhostEntity;
-import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public final class GhostCreatureManager {
     public static LivingEntity get(Player player) {
         String id = ((IdHolder) player).sonaria$getId();
 
-        MorphState state = MorphService.get(player);
+        MorphState state = MorphStateService.get(player);
         if (state == null || !state.isMorphed()) {
             return null;
         }

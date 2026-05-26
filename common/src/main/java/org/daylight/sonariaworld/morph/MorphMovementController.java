@@ -21,7 +21,7 @@ public class MorphMovementController {
         if (player == null) return;
         if (player.level() == null || !player.level().isClientSide()) return;
 
-        MorphState data = MorphService.get(player); // MorphData.get(player);
+        MorphState data = MorphStateService.get(player); // MorphData.get(player);
         if (data == null || !data.isMorphed()) return;
 
         LivingEntity morph = ClientMorphManager.getRenderEntity(player);
@@ -85,7 +85,7 @@ public class MorphMovementController {
         // TARGET ROTATION
         // =========================================================
 
-        MorphState.MorphVisualsInfo morphVisualsInfo = MorphService.get(player).getMorphVisualsInfo();
+        MorphState.MorphVisualsInfo morphVisualsInfo = MorphStateService.get(player).getMorphVisualsInfo();
 
         float targetYaw;
 
@@ -116,7 +116,7 @@ public class MorphMovementController {
 
 //        ClientState.setClientSmoothAnimationTargetYaw(newYaw);
 
-        MorphState state = MorphService.get(player);
+        MorphState state = MorphStateService.get(player);
         if (state == null) return;
         MorphState.MorphVisualsInfo visualsInfo = state.getMorphVisualsInfo();
 

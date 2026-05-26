@@ -6,7 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.daylight.sonariaworld.Services;
 import org.daylight.sonariaworld.mixinrelated.IdHolder;
-import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.daylight.sonariaworld.network.payload.MorphRotationRequestPayload;
 
@@ -32,7 +32,7 @@ public class ClientMorphRotationSender {
             return;
         }
 
-        MorphState state = MorphService.get(player);
+        MorphState state = MorphStateService.get(player);
         if(!state.isMorphed()) return;
 
         LivingEntity morph = state.getMorphEntity();

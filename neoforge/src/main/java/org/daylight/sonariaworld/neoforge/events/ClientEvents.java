@@ -17,7 +17,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onSize(EntityEvent.Size event) {
         if (event.getEntity() instanceof Player player) {
-            MorphState state = MorphService.get(player);
+            MorphState state = MorphStateService.get(player);
             if(player.level() != null) System.out.println("onSize called - Morphed: " + state.isMorphed() +
 //                    " Entity: " + player.getLivingEntity().getDisplayName() +
                     " Side: " + (player.level().isClientSide() ? "CLIENT" : "SERVER"));

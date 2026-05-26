@@ -10,7 +10,6 @@ import org.daylight.sonariaworld.mixinrelated.IdHolder;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public final class ClientMorphManager {
     private static final Map<String, LivingEntity> CACHE =
@@ -19,7 +18,7 @@ public final class ClientMorphManager {
     public static LivingEntity getRenderEntity(
             Player player
     ) {
-        MorphState state = MorphService.get(player); // MorphData.get(player);
+        MorphState state = MorphStateService.get(player); // MorphData.get(player);
 
 //        System.out.println("Morph state: " + state); // c1
 //        System.out.println(state.isMorphed() + " " + state.getEntityId()); // c1

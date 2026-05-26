@@ -5,10 +5,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
-import org.daylight.sonariaworld.client.data.LateInitializations;
 import org.daylight.sonariaworld.mixinrelated.PossibleGhostEntity;
 import org.daylight.sonariaworld.morph.MorphDimensions;
-import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -35,7 +34,7 @@ public class LivingEntityMixin implements PossibleGhostEntity {
             return;
         }
 
-        MorphState state = MorphService.get(player);
+        MorphState state = MorphStateService.get(player);
 //        System.out.println("Overriding getDimensions for state: " + state);
         if (state != null && state.isMorphed()) {
             EntityDimensions dimensions = MorphDimensions.get(

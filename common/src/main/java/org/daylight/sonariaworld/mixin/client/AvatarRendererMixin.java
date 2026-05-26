@@ -6,10 +6,9 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import org.daylight.sonariaworld.client.data.ClientState;
 import org.daylight.sonariaworld.mixinrelated.MorphRenderState;
 import org.daylight.sonariaworld.morph.ClientMorphManager;
-import org.daylight.sonariaworld.morph.MorphService;
+import org.daylight.sonariaworld.morph.MorphStateService;
 import org.daylight.sonariaworld.morph.MorphState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -33,7 +32,7 @@ public class AvatarRendererMixin {
             return;
         }
 
-        MorphState state = MorphService.get(player);
+        MorphState state = MorphStateService.get(player);
         if(!state.isMorphed()) return;
 
         LivingEntity morph = ClientMorphManager.getRenderEntity(player);
