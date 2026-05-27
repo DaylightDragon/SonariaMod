@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ public abstract class CoordinateSystemComponent {
 
     protected boolean dirty = true;
 
-    public abstract CoordinateSystemComponent getParentCoordinateSystem();
+    public abstract Optional<CoordinateSystemComponent> getParentCoordinateSystem();
 
     protected abstract List<CoordinateSystemComponent> getChildren();
 
@@ -68,9 +69,9 @@ public abstract class CoordinateSystemComponent {
 
 //        System.out.println("Updating: " + this);
 
-        CoordinateSystemComponent parent = getParentCoordinateSystem();
+        Optional<CoordinateSystemComponent> parent = getParentCoordinateSystem();
 
-        if (parent == null) {
+        if (parent.isEmpty()) {
             worldTransform.position().set(localTransform.position());
             worldTransform.rotation().set(localTransform.rotation());
             dirty = false;
@@ -80,18 +81,18 @@ public abstract class CoordinateSystemComponent {
             return;
         }
 
-        parent.updateGlobal();
+        parent.get().updateGlobal();
 
         worldTransform.rotation()
-                .set(parent.world().rotation())
+                .set(parent.get().world().rotation())
                 .mul(localTransform.rotation());
 
         Vector3f rotated = new Vector3f(localTransform.position());
 
-        rotated.rotate(parent.world().rotation());
+        rotated.rotate(parent.get().world().rotation());
 
         worldTransform.position()
-                .set(parent.world().position())
+                .set(parent.get().world().position())
                 .add(rotated);
 
 //        System.out.println("Result world pos: " + world().position());

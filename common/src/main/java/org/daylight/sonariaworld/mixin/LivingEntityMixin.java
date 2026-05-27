@@ -36,9 +36,9 @@ public class LivingEntityMixin implements PossibleGhostEntity {
 
         MorphState state = MorphStateService.get(player);
 //        System.out.println("Overriding getDimensions for state: " + state);
-        if (state != null && state.isMorphed()) {
+        if (state != null && state.isMorphed() && state.getEntityIdentifier().isPresent()) {
             EntityDimensions dimensions = MorphDimensions.get(
-                    BuiltInRegistries.ENTITY_TYPE.getValue(state.getEntityIdentifier()),
+                    BuiltInRegistries.ENTITY_TYPE.getValue(state.getEntityIdentifier().get()),
                     pose
             );
 

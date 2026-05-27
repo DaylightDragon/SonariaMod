@@ -18,6 +18,7 @@ import org.joml.Vector3fc;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public final class GhostPositionSyncListener {
     private static final double MOVEMENT_THRESHOLD_SQR = 1.0E-6;
@@ -66,9 +67,9 @@ public final class GhostPositionSyncListener {
         ghostInfo.setDirty(true);
         ghostInfo.updateHitboxes();
 
-        HitboxHolder hitboxHolder = ghostInfo.getHitboxHolder();
-        if(hitboxHolder != null) {
-            List<CoordinateSystemComponent> hitboxes = hitboxHolder.getHitboxes();
+        Optional<HitboxHolder> hitboxHolder = ghostInfo.getHitboxHolder();
+        if(hitboxHolder.isPresent()) {
+            List<CoordinateSystemComponent> hitboxes = hitboxHolder.get().getHitboxes();
             if(!hitboxes.isEmpty()) {
                 Hitbox hitbox = (Hitbox) hitboxes.getFirst();
                 Transform transform = hitbox.getWorldTransform();

@@ -9,6 +9,7 @@ import org.daylight.sonariaworld.data.systems.ServerSpatialSystems;
 import org.joml.Vector3f;
 
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -31,8 +32,8 @@ public class Hitbox extends CoordinateSystemComponent {
     private final HitboxType hitboxType;
 
     @Override
-    public CoordinateSystemComponent getParentCoordinateSystem() {
-        return parentCoordinateSystem;
+    public Optional<CoordinateSystemComponent> getParentCoordinateSystem() {
+        return Optional.ofNullable(parentCoordinateSystem);
     }
 
     @Override
@@ -67,13 +68,13 @@ public class Hitbox extends CoordinateSystemComponent {
 
     @Override
     public Level getWorld() {
-        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getWorld();
+        if(getParentCoordinateSystem().isPresent()) return getParentCoordinateSystem().get().getWorld();
         return null;
     }
 
     @Override
     public CoordinateSystemComponent getRoot() {
-        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getRoot();
+        if(getParentCoordinateSystem().isPresent()) return getParentCoordinateSystem().get().getRoot();
         return null;
     }
 

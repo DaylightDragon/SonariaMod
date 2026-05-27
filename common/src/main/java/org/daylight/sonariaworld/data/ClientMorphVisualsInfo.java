@@ -13,6 +13,7 @@ import org.daylight.sonariaworld.entity.hitboxes.HitboxHolder;
 import org.daylight.sonariaworld.morph.MorphState;
 
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -47,8 +48,12 @@ public class ClientMorphVisualsInfo extends CoordinateSystemComponent {
     }
 
     @Override
-    public CoordinateSystemComponent getParentCoordinateSystem() {
-        return null;
+    public Optional<CoordinateSystemComponent> getParentCoordinateSystem() {
+        return Optional.empty();
+    }
+
+    public Optional<HitboxHolder> getHitboxHolder() {
+        return Optional.ofNullable(hitboxHolder);
     }
 
     @Override
@@ -106,13 +111,13 @@ public class ClientMorphVisualsInfo extends CoordinateSystemComponent {
 
     @Override
     public Level getWorld() {
-        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getWorld();
+        if(getParentCoordinateSystem().isPresent()) return getParentCoordinateSystem().get().getWorld();
         return state.getRealPlayerCoords().getWorld();
     }
 
     @Override
     public CoordinateSystemComponent getRoot() {
-        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getRoot();
+        if(getParentCoordinateSystem().isPresent()) return getParentCoordinateSystem().get().getRoot();
         return null;
     }
 }

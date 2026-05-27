@@ -14,6 +14,7 @@ import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponen
 import org.daylight.sonariaworld.entity.hitboxes.HitboxHolder;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Client and server
@@ -32,4 +33,8 @@ public class MorphState {
     private ClientMorphVisualsInfo clientMorphVisualsInfo = new ClientMorphVisualsInfo().setState(this);
     private InterpolatedCoords realPlayerCoords = new InterpolatedCoords();
     private EntityDimensions realPlayerDimensions = EntityDimensions.fixed(0.5f, 0.5f); // temp initialization
+
+    public Optional<Identifier> getEntityIdentifier() {
+        return Optional.ofNullable(entityIdentifier);
+    }
 }

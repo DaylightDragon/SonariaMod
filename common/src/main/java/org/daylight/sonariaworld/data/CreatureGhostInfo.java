@@ -9,6 +9,7 @@ import org.daylight.sonariaworld.data.coordinatesystems.CoordinateSystemComponen
 import org.daylight.sonariaworld.entity.hitboxes.HitboxHolder;
 
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -37,8 +38,8 @@ public class CreatureGhostInfo extends CoordinateSystemComponent {
     }
 
     @Override
-    public CoordinateSystemComponent getParentCoordinateSystem() {
-        return null;
+    public Optional<CoordinateSystemComponent> getParentCoordinateSystem() {
+        return Optional.empty();
     }
 
     @Override
@@ -64,13 +65,17 @@ public class CreatureGhostInfo extends CoordinateSystemComponent {
 
     @Override
     public Level getWorld() {
-        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getWorld();
+        if(getParentCoordinateSystem().isPresent()) return getParentCoordinateSystem().get().getWorld();
         return getPlayerWorld();
     }
 
     @Override
     public CoordinateSystemComponent getRoot() {
-        if(getParentCoordinateSystem() != null) return getParentCoordinateSystem().getRoot();
+        if(getParentCoordinateSystem().isPresent()) return getParentCoordinateSystem().get().getRoot();
         return this;
+    }
+
+    public Optional<HitboxHolder> getHitboxHolder() {
+        return Optional.ofNullable(hitboxHolder);
     }
 }

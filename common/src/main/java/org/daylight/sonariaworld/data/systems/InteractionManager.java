@@ -22,8 +22,8 @@ public class InteractionManager {
         List<Hitbox> possiblyAffected = new ArrayList<>();
 
         ServerPlayerState state = ServerPlayerManager.get(attacker);
-        if(state.getGhostInfo().getHitboxHolder() == null) return;
-        a: for(CoordinateSystemComponent component : state.getGhostInfo().getHitboxHolder().getHitboxes()) {
+        if(state.getGhostInfo().getHitboxHolder().isEmpty()) return;
+        a: for(CoordinateSystemComponent component : state.getGhostInfo().getHitboxHolder().get().getHitboxes()) {
             if(component instanceof Hitbox hitbox) {
                 if(hitbox.getHitboxType() == Hitbox.HitboxType.ATTACK) {
                     for(Hitbox possiblyAffectedHitbox : spatialHash.query(SpatialHash3D.computeWorldAABB(hitbox))) {

@@ -32,7 +32,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 @Mixin(value = LivingEntityRenderer.class, priority = 1100)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> extends EntityRenderer<T, S> {
     protected LivingEntityRendererMixin(EntityRendererProvider.Context context) {
@@ -153,9 +152,9 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     private void renderHitboxes(Player player, MorphState state, EntityRenderState morphActualRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         ClientMorphVisualsInfo visualsInfo = state.getClientMorphVisualsInfo();
         if(!state.isMorphed()) return;
-        if(visualsInfo.getHitboxHolder() == null) return;
+        if(visualsInfo.getHitboxHolder().isEmpty()) return;
 
-        for(CoordinateSystemComponent component : visualsInfo.getHitboxHolder().getHitboxes()) {
+        for(CoordinateSystemComponent component : visualsInfo.getHitboxHolder().get().getHitboxes()) {
             if(component instanceof Hitbox hitbox) {
                 Gizmos.addGizmo(OrientedBoxGizmo.fromHitbox(player, hitbox));
             }

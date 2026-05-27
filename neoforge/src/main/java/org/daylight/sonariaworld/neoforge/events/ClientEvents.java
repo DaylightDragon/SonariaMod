@@ -18,15 +18,17 @@ public class ClientEvents {
     public static void onSize(EntityEvent.Size event) {
         if (event.getEntity() instanceof Player player) {
             MorphState state = MorphStateService.get(player);
-            if(player.level() != null) System.out.println("onSize called - Morphed: " + state.isMorphed() +
-//                    " Entity: " + player.getLivingEntity().getDisplayName() +
-                    " Side: " + (player.level().isClientSide() ? "CLIENT" : "SERVER"));
+            if(state.getEntityIdentifier().isEmpty()) return;
+
+//            if(player.level() != null) System.out.println("onSize called - Morphed: " + state.isMorphed() +
+////                    " Entity: " + player.getLivingEntity().getDisplayName() +
+//                    " Side: " + (player.level().isClientSide() ? "CLIENT" : "SERVER"));
 
             EntityDimensions result;
 
             if (state.isMorphed()) {
                 result = MorphDimensions.get(
-                        BuiltInRegistries.ENTITY_TYPE.getValue(state.getEntityIdentifier()),
+                        BuiltInRegistries.ENTITY_TYPE.getValue(state.getEntityIdentifier().get()),
                         player.getPose()
                 );
             } else {

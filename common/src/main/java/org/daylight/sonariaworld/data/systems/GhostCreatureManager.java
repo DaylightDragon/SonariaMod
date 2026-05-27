@@ -23,18 +23,12 @@ public final class GhostCreatureManager {
         String id = ((IdHolder) player).sonaria$getId();
 
         MorphState state = MorphStateService.get(player);
-        if (state == null || !state.isMorphed()) {
-            return null;
-        }
+        if (!state.isMorphed() || state.getEntityIdentifier().isEmpty()) return null;
 
         EntityType<?> wantedType =
                 BuiltInRegistries.ENTITY_TYPE.getValue(
-                        state.getEntityIdentifier()
+                        state.getEntityIdentifier().get()
                 );
-
-        if (wantedType == null) {
-            return null;
-        }
 
         LivingEntity current = ENTITIES.get(id);
 

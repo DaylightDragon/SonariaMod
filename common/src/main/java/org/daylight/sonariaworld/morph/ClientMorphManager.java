@@ -24,7 +24,7 @@ public final class ClientMorphManager {
 //        System.out.println("Morph state: " + state); // c1
 //        System.out.println(state.isMorphed() + " " + state.getEntityId()); // c1
 
-        if (!state.isMorphed() || state.getEntityIdentifier() == null) {
+        if (!state.isMorphed() || state.getEntityIdentifier().isEmpty()) {
             CACHE.remove(((IdHolder)player).sonaria$getId());
             return null;
         }
@@ -45,7 +45,7 @@ public final class ClientMorphManager {
 
         EntityType<?> type =
                 BuiltInRegistries.ENTITY_TYPE
-                        .getValue(state.getEntityIdentifier());
+                        .getValue(state.getEntityIdentifier().get());
 
         if (!(type.create(
                 player.level(),
@@ -58,6 +58,8 @@ public final class ClientMorphManager {
 
 //        System.out.println("Put cache: " + ((IdHolder)player).sonaria$getId() + " " + entity);
         CACHE.put(((IdHolder)player).sonaria$getId(), entity);
+
+        state.getClientMorphVisualsInfo().updateHitboxes();
 
         return entity;
     }

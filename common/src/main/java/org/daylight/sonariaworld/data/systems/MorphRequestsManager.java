@@ -43,7 +43,9 @@ public class MorphRequestsManager {
 
         MorphSyncPayload syncPayload = new MorphSyncPayload(
                 ((IdHolder)player).sonaria$getId(),
-                state.isMorphed() ? state.getEntityIdentifier() : Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, "none"),
+                state.isMorphed() && state.getEntityIdentifier().isPresent()
+                        ? state.getEntityIdentifier().get()
+                        : Identifier.fromNamespaceAndPath(SonariaWorld.MOD_ID, "none"),
                 state.getVariant(),
                 state.isMorphed()
         );
